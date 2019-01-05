@@ -38,11 +38,14 @@ class Product(models.Model):
         return self.product_name
 
 class Order(models.Model):
-    date = models.DateField()
+    id = models.IntegerField(primary_key=True)
+    date = models.DateTimeField()
     total_price = models.DecimalField(max_digits=5, decimal_places=0)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     product = models.ManyToManyField(Product, through='Order_has_product')
 
+    def __str__(self):              
+        return self.id
 
 
 
@@ -54,15 +57,24 @@ class Order_has_product(models.Model):
     sugar_level = models.CharField(max_length=10)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    
+    def __str__(self):              
+        return self.order.id + self.product.product_name 
 
 class Product_made_by_ingredient(models.Model):
     amount = models.DecimalField(max_digits=5, decimal_places=0)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
 
+    def __str__(self):              
+        return self.product.product_name + self.ingredient.ingredient_name 
+
 class Ingredient_offerd_by_supplier(models.Model):
-    date = models.DateField()
+    date = models.DateTimeField()
     amount = models.DecimalField(max_digits=5, decimal_places=0)
     unit_price = models.DecimalField(max_digits=3, decimal_places=0)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
+
+    def __str__(self):              
+        return self.supplier.supplier_name + self.ingredient.ingredient_name 
