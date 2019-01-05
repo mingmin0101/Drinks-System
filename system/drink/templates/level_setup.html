@@ -3,7 +3,23 @@
 		<title>Level Setup</title>
 	</head>
 	<body>
-		<p>tekalfjdsklajfkldsafkdsahfkads</p>
+		<form>
+			<label for="LT">LT: </label>
+			<input name="LT" id="LT" type="text" value="{{default_LT}}">
+			<br>
+			<label for="d">𝑑: </label>
+			<input name="d" id="d" type="text" value="{{default_d}}">
+			<br>
+			<label for="sigma">sigma: </label>
+			<input name="sigma" id="sigma" type="text" value="{{default_sigma}}">
+			<br>
+			<label for="a_risk">accepted_risk: </label>
+			<input name="a_risk" id="a_risk" type="text" value="{{default_accepted_risk}}">
+			<br>
+			<input type="submit" value="calculate">
+		</form>
+			
+			<h2>ROP equals {{ROP}}</h2>
 		
 	</body>
 

@@ -3,7 +3,6 @@ from django.http import HttpResponse
 from drink.models import Customer,Ingredient
 
 
-
 def add_member(request):
     if ('customer_name' in request.GET and request.GET['customer_name']) and ('phone' in request.GET and request.GET['phone']) and ('gender' in request.GET and request.GET['gender']) :
         name = request.GET['customer_name']
@@ -25,6 +24,34 @@ def list_ingredient(request):
         return render(request,'manager_check_i.html',locals())
         
 def level_setup(request):
+    #單期訂購模型
+    
+    #再訂購點訂購法
+    default_LT=4
+    default_d=2
+    default_sigma=0.1
+    default_accepted_risk=1.5
+
+    LT=default_LT
+    d=default_d
+    sigma=default_sigma
+    accepted_risk=default_accepted_risk
+
+    ROP=d * LT + (100-accepted_risk)/100*sigma*LT**0.5
+
+    #數量折扣模型
+
+    Q=10 #訂購數量
+    H=5  #每單位持有成本
+    D=1  #需求
+    P=3  #單位價格
+
+    holding_cost = (Q/2)*H
+    order_cost = D/Q
+    purchase_cost = P*D
+
+    total_cost = holding_cost + order_cost + purchase_cost
+
     return render(request,'level_setup.html',locals())
 
 def check_ingredientl(request):
