@@ -1,0 +1,50 @@
+<html>
+	<head>
+		<title></title>
+	</head>
+	<body>
+		<table>
+			<tr>
+				<th>ingredient_name</th>
+				<th>amount</th>
+				<th>is_processed</th>
+			</tr>
+			
+			{%for i in pi_list%}
+			{%if i.amount < level %}
+				<tr style="color:red">
+				{%else%}
+				<tr>
+			{%endif%}
+				<td>{{i.ingredient_name}}</td>
+				<td>{{i.amount}}</td>
+				<td>{{i.is_processed}}</td>
+			</tr>
+			{%endfor%}
+		</table>
+		
+		<table>
+			<tr>
+				<th>ingredient_name</th>
+				<th>amount</th>
+				<th>is_processed</th>
+			</tr>
+			
+			{%for i in i_list%}
+			{%if i.amount < 10 %}
+				<tr style="color:red">
+				{%else%}
+				<tr>
+			{%endif%}
+				<td>{{i.ingredient_name}}</td>
+				<td>{{i.amount}}</td>
+				<td>{{i.is_processed}}</td>
+			</tr>
+			{%endfor%}
+		</table>
+		<form method="GET" action="/level_setup/">
+			<input type="submit" value="安全存量設置">
+		</form>
+		
+	</body>
+</html>

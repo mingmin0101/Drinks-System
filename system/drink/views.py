@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from drink.models import Customer,Ingredient
 
 
+
 def add_member(request):
     if ('customer_name' in request.GET and request.GET['customer_name']) and ('phone' in request.GET and request.GET['phone']) and ('gender' in request.GET and request.GET['gender']) :
         name = request.GET['customer_name']
@@ -16,6 +17,15 @@ def add_member(request):
 def order(request):
     
     return HttpResponse('成功撰寫視圖函式')
+
+def list_ingredient(request):
+        pi_list=list(Ingredient.objects.all().filter(is_processed=False))
+        i_list=list(Ingredient.objects.all().filter(is_processed=True))
+        level=10
+        return render(request,'manager_check_i.html',locals())
+        
+def level_setup(request):
+    return render(request,'level_setup.html',locals())
 
 def check_ingredientl(request):
     i_list=list(Ingredient.objects.all())
