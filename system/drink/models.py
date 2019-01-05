@@ -6,8 +6,8 @@ class Customer(models.Model):
     name = models.CharField(max_length=20)
     gender = models.CharField(max_length=3)
     points = models.DecimalField(max_digits=10, decimal_places=0)
-    create_time = models.DateTimeField(auto_now_add=True)
-    latest_order_time = models.DateTimeField(auto_now=True)  # we have to .save() to change it
+    create_time = models.DateTimeField()
+    latest_order_time = models.DateTimeField()  # we have to .save() to change it
 
     def __str__(self):              
         return self.name
