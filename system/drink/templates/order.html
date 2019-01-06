@@ -2,14 +2,92 @@
 <html>
 	<head>
         
-		<title></title>
-    
-	</head>
-	<body>
+		<title>ORDER</title>
         
-        <form method="GET" action="" >
+        <style>    
+        table, td {
+          border: 1px solid black;
+        }
+        h1 {
+          text-align: center;
+          font-size: 40px;
+        }
+        </style>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                $("[id*=btnFirstGenerateJson").click(function () {
+                    var array1 = [];
+                    $("[id*=finalOrder] .DataRow").each(function () {
+                        var amount = $(this).find('td').eq(4).text().trim();
+                        if (!isNaN(amount)) {
+                            var firstTableData = {};
+                            firstTableData.drink = $(this).find('td').eq(0).text().trim();
+                            firstTableData.sugar = $(this).find('td').eq(1).text().trim();
+                            firstTableData.ice = $(this).find('td').eq(2).text().trim();
+                            firstTableData.cupsize = $(this).find('td').eq(3).text().trim();
+                            firstTableData.amount = amount
+                            array1.push(firstTableData);
+                        }
+                    });
+                    alert(JSON.stringify(array1));
+                });
+            })
     
-        <table>
+        </script>
+        
+        <script>
+        function addRow() {
+          var table = document.getElementById("orderTable");
+          var row = table.insertRow(-1);
+          var cell1 = row.insertCell(0);
+          var cell2 = row.insertCell(1);
+          var cell3 = row.insertCell(2);
+          var cell4 = row.insertCell(3);
+          var cell5 = row.insertCell(4);
+          cell1.innerHTML = document.getElementById("order_drink").innerHTML
+          cell2.innerHTML = document.getElementById("order_sugar").innerHTML
+          cell3.innerHTML = document.getElementById("order_ice").innerHTML
+          cell4.innerHTML = document.getElementById("order_size").innerHTML
+          cell5.innerHTML = document.getElementById("order_num").innerHTML
+        }
+        function convert() {
+          var table = document.getElementById("finalOrder");
+          var row = table.insertRow(-1);
+          row.className = 'DataRow';
+          var cell1 = row.insertCell(0);
+          var cell2 = row.insertCell(1);
+          var cell3 = row.insertCell(2);
+          var cell4 = row.insertCell(3);
+          var cell5 = row.insertCell(4);
+          
+          var selObjDrink = document.getElementById("drink");
+          var selObjSugar = document.getElementById("sugar");
+          var selObjIce = document.getElementById("ice");
+          var selObjSize = document.getElementById("size");
+          var selObjNum = document.getElementById("num_of_drink");
+          
+          cell1.innerHTML = selObjDrink.options[selObjDrink.selectedIndex].text;
+          cell2.innerHTML = selObjSugar.options[selObjSugar.selectedIndex].text;
+          cell3.innerHTML = selObjIce.options[selObjIce.selectedIndex].text;
+          cell4.innerHTML = selObjSize.options[selObjSize.selectedIndex].text;
+          cell5.innerHTML = selObjNum.value;
+
+        }
+
+        </script>
+
+  
+	</head>
+	<body>       
+        <!--
+        <button onclick='addRow()' id="run" class="btn btn-primary"> 新增品項 </button>
+        -->
+        <div style="text-align:center;">
+            <h1 onclick="window.location.href ='/main_page'">Drink System</h1>
+        </div>
+        <form method="GET" action="" >
+        <table id="orderTable">
           <tr>
             <th>商品</th>
             <th>甜度</th>
@@ -18,9 +96,9 @@
             <th>數量</th>
           </tr>
           
-          <tr>
-            <td>
-                <select id="drink" name="drink" required>
+          <tr class="DataRow">
+            <td id='order_drink'>
+                <select id="drink" name="drink">
                 <option value="red_tea">紅茶</option>
                 <option value="green_tea">綠茶</option>
                 <option value="milktea">鮮奶茶</option>
@@ -29,8 +107,8 @@
                 <option value="bubble_green_milktea">珍珠奶綠</option>
                 </select>
             </td>
-            <td>
-                <select id="sugar" name="sugar" required>
+            <td id='order_sugar'>
+                <select id="sugar" name="sugar">
                 <option value="sugar4">全糖</option>
                 <option value="sugar3">少糖</option>
                 <option value="sugar2">半糖</option>
@@ -38,28 +116,52 @@
                 <option value="sugar0">無糖</option>
                 </select>
             </td>
-            <td>
-                <select id="ice" name="ice" required>
+            <td id='order_ice'>
+                <select id="ice" name="ice">
                 <option value="iceFull">正常</option>
                 <option value="iceLess">少冰</option>
                 <option value="iceNon">去冰</option>
                 <option value="hot">溫熱</option>
                 </select>
             </td>
-            <td>
+            <td id='order_size'>
                 <select id="size" name="size" required>
                 <option value="midium">中杯</option>
                 <option value="large">大杯</option>
                 </select>
             </td>
-            <td>
+            <td id='order_num'>
                 <input type="number" id="num_of_drink" name="num_of_drink" min="0" max="10">
             </td>
           </tr>
 
       
         </table>
-        <button type="button" name='add' onclick='addColumn()'> 新增品項 </button>
+        </form>
+        <br>
+        <button onclick='convert()' name='convert'>新增訂單項目</button>
+        <br>
+        <br>
+        <div>
+            <h3>訂單:</h3>
+            <table id='finalOrder'>
+                <tr>
+                    <th>商品</th>
+                    <th>甜度</th>
+                    <th>冰塊</th>
+                    <th>尺寸</th>
+                    <th>數量</th>
+                </tr>
+            </table>
+            
+        </div>
+        <br>
+
+        <input type="button" value="Genrate First Table JSON Object" id="btnFirstGenerateJson" />
+
+
+
+        <form method="GET" action="">
         <input type='submit' name='createOrder' value='完成訂單'>
         <p> 訂單編號 : {{ ordernum.num }} </p>
         {% for orders in order_has_product_set.all %}
@@ -90,10 +192,7 @@
         <p id="demo"></p>
 
         <script>
-        function addColumn(){
-
-
-        }
+        
         function myFunction() {
           var txt;
           

@@ -18,11 +18,26 @@ def add_member(request):
 
 def order(request):
     #order_has_product_set = Order_has_product.objects.get(order=Order.objects.get(id=1))
+    if('convert' in request.GET and request.GET['convert']
+        and 'drink' in request.GET
+        and 'size' in request.GET
+        and 'sugar' in request.GET
+        and 'ice' in request.GET
+        and 'num_of_drink' in request.GET):
+        drink = request.GET['drink']
+        size = request.GET['size']
+        sugar = request.GET['sugar']
+        ice = request.GET['ice']
+        order_num = request.GET['num_of_drink']
+
+
+
     if('createOrder' in request.GET and request.GET['createOrder']
         and 'drink' in request.GET
         and 'size' in request.GET
         and 'sugar' in request.GET
-        and 'ice' in request.GET):
+        and 'ice' in request.GET
+        and 'num_of_drink' in request.GET):
         noMember = Customer.objects.get(name='noMember')
         orderCreate_date = datetime.datetime.now()
         orderCreate = Order(date=orderCreate_date , total_price=0, customer=noMember)
@@ -33,10 +48,11 @@ def order(request):
         size = request.GET['size']
         sugar = request.GET['sugar']
         ice = request.GET['ice']
+        order_num = request.GET['num_of_drink']
         order = Order.objects.get(id=orderid)
         product = Product.objects.get(product_name=request.GET['drink'])
             
-        order_has_product_set = Order_has_product.objects.get(order=Order.objects.get(id=1))
+        order_has_product_set = Order_has_product.objects.get(order=Order.objects.get(id=orderid))
         Order_has_product.objects.create(cup_size=size, ice_level=ice, sugar_level=sugar, product=product, order=order)
     
 
