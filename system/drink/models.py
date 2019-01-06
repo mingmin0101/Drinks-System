@@ -45,7 +45,7 @@ class Order(models.Model):
     product = models.ManyToManyField(Product, through='Order_has_product')
 
     def __str__(self):              
-        return str(self.order.id)
+        return str(self.id)
 
 
 

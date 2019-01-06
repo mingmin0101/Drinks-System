@@ -3,17 +3,34 @@
 	<head>
         
 		<title>ORDER</title>
-        
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
         <style>    
-        table, td {
-          border: 1px solid black;
-        }
+        
         h1 {
           text-align: center;
           font-size: 40px;
         }
+        table {
+          width: 100%;
+        }
+        button {
+          background-color: #e7e7e7; 
+          color: black;
+          border: none;
+          padding: 10px 30px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 12px;
+        }
         </style>
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        
         <script type="text/javascript">
             $(function () {
                 $("[id*=btnFirstGenerateJson").click(function () {
@@ -33,7 +50,6 @@
                     alert(JSON.stringify(array1));
                 });
             })
-    
         </script>
         
         <script>
@@ -74,7 +90,23 @@
           cell5.innerHTML = selObjNum.value;
 
         }
-
+        function checkIdentity() {
+            var txt;
+                  
+            //var phone_number = prompt("Please enter customer phone number:");
+            phone_number = document.getElementById('customer_phone')
+            if (phone_number == null || phone_number == "") {
+                txt = "未輸入，請再輸入一次";
+            } else {
+                txt = "Hello " + phone_number.value + "!";
+            }
+            document.getElementById("demo").innerHTML = txt;
+            document.getElementById("addMember").src="/add_member";
+        }
+        </script>
+        <script>
+        
+        
         </script>
 
   
@@ -83,84 +115,124 @@
         <!--
         <button onclick='addRow()' id="run" class="btn btn-primary"> 新增品項 </button>
         -->
-        <div style="text-align:center;">
-            <h1 onclick="window.location.href ='/main_page'">Drink System</h1>
+        <div class="page-header text-center">
+          <h1 onclick="window.location.href ='/main_page'">Drink System</h1>
         </div>
-        <form method="GET" action="" >
-        <table id="orderTable">
-          <tr>
-            <th>商品</th>
-            <th>甜度</th>
-            <th>冰塊</th>
-            <th>尺寸</th>
-            <th>數量</th>
-          </tr>
-          
-          <tr class="DataRow">
-            <td id='order_drink'>
-                <select id="drink" name="drink">
-                <option value="red_tea">紅茶</option>
-                <option value="green_tea">綠茶</option>
-                <option value="milktea">鮮奶茶</option>
-                <option value="green_milktea">奶綠</option>
-                <option value="bubble_milktea">珍珠鮮奶茶</option>
-                <option value="bubble_green_milktea">珍珠奶綠</option>
-                </select>
-            </td>
-            <td id='order_sugar'>
-                <select id="sugar" name="sugar">
-                <option value="sugar4">全糖</option>
-                <option value="sugar3">少糖</option>
-                <option value="sugar2">半糖</option>
-                <option value="sugar1">微糖</option>
-                <option value="sugar0">無糖</option>
-                </select>
-            </td>
-            <td id='order_ice'>
-                <select id="ice" name="ice">
-                <option value="iceFull">正常</option>
-                <option value="iceLess">少冰</option>
-                <option value="iceNon">去冰</option>
-                <option value="hot">溫熱</option>
-                </select>
-            </td>
-            <td id='order_size'>
-                <select id="size" name="size" required>
-                <option value="midium">中杯</option>
-                <option value="large">大杯</option>
-                </select>
-            </td>
-            <td id='order_num'>
-                <input type="number" id="num_of_drink" name="num_of_drink" min="0" max="10">
-            </td>
-          </tr>
-
-      
-        </table>
-        </form>
-        <br>
-        <button onclick='convert()' name='convert'>新增訂單項目</button>
-        <br>
-        <br>
-        <div>
-            <h3>訂單:</h3>
-            <table id='finalOrder'>
-                <tr>
-                    <th>商品</th>
-                    <th>甜度</th>
-                    <th>冰塊</th>
-                    <th>尺寸</th>
-                    <th>數量</th>
-                </tr>
-            </table>
             
+        <div class='container'>
+        <div class="row">
+        <div class="col-sm-8" >
+            
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading" >新增餐點</div>
+                    <div class="panel-body table-responsive">
+                        <table id="orderTable">
+                          <tr>
+                            <th>商品</th>
+                            <th>甜度</th>
+                            <th>冰塊</th>
+                            <th>尺寸</th>
+                            <th>數量</th>
+                          </tr>
+                          
+                          <tr class="DataRow">
+                            <td id='order_drink'>
+                                <select id="drink" name="drink" class="form-control" required>
+                                <option value="red_tea">紅茶</option>
+                                <option value="green_tea">綠茶</option>
+                                <option value="milktea">鮮奶茶</option>
+                                <option value="green_milktea">奶綠</option>
+                                <option value="bubble_milktea">珍珠鮮奶茶</option>
+                                <option value="bubble_green_milktea">珍珠奶綠</option>
+                                </select>
+                            </td>
+                            <td id='order_sugar'>
+                                <select id="sugar" name="sugar" class="form-control" required>
+                                <option value="sugar4">全糖</option>
+                                <option value="sugar3">少糖</option>
+                                <option value="sugar2">半糖</option>
+                                <option value="sugar1">微糖</option>
+                                <option value="sugar0">無糖</option>
+                                </select>
+                            </td>
+                            <td id='order_ice'>
+                                <select id="ice" name="ice" class="form-control" required>
+                                <option value="iceFull">正常</option>
+                                <option value="iceLess">少冰</option>
+                                <option value="iceNon">去冰</option>
+                                <option value="hot">溫熱</option>
+                                </select>
+                            </td>
+                            <td id='order_size'>
+                                <select id="size" name="size" class="form-control" required>
+                                <option value="midium">中杯</option>
+                                <option value="large">大杯</option>
+                                </select>
+                            </td>
+                            <td id='order_num' >
+                                <input class="form-control" type="number" id="num_of_drink" name="num_of_drink" min="0" max="10">
+                            </td>
+                          </tr>
+                        </table>
+                        <div align="right" style="padding-top:10px">
+                        <button onclick='convert()' name='convert'>新增訂單項目</button>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="panel panel-success">
+                    <div class="panel-heading">確認訂單</div>
+                    <div class="panel-body">
+                        <table id='finalOrder'>
+                            <tr>
+                                <th>商品</th>
+                                <th>甜度</th>
+                                <th>冰塊</th>
+                                <th>尺寸</th>
+                                <th>數量</th>
+                            </tr>
+                        </table>
+                        <div align="right" style="padding-top:10px">
+                        <button type="button" value="Genrate First Table JSON Object" id="btnFirstGenerateJson">送出訂單</button>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
         </div>
-        <br>
+        <div class="col-sm-4" >
+            <div class="panel panel-warning">
+                <div class="panel-heading">會員</div>
+                <div class="panel-body">
+                    <label for="customer_phone">顧客手機號碼:</label>
+                    <input class="form-control" type="text" id="customer_phone" name="customer_phone"><br>
+                    <div align="right"><button onclick="checkIdentity()">查詢會員資料</button></div>
+                    <p id="demo"></p>
+                </div>
+            </div>
 
-        <input type="button" value="Genrate First Table JSON Object" id="btnFirstGenerateJson" />
+                
+
+        </div>
+
+        </div>
+        </div>
+          
+          
+        
+        <form method="GET" action="" >
+        
+        </form>
+        
+
+        
 
 
-
+<!--
         <form method="GET" action="">
         <input type='submit' name='createOrder' value='完成訂單'>
         <p> 訂單編號 : {{ ordernum.num }} </p>
@@ -173,40 +245,10 @@
                 <td>1</td>  
             </tr>
         {% endfor %}
-
-        <br>
-        <br>
-        <br>
-
-
-
-		
-			<label for="customer_phone">顧客手機號碼:</label>
-			<input type="text" id="customer_phone" name="customer_phone"><br>
-			
 		</form>
-			<!--Dropdown boxes-->
-		
-        
-        <button onclick="myFunction()">Check Membership</button>
-        <p id="demo"></p>
+-->
 
-        <script>
-        
-        function myFunction() {
-          var txt;
-          
-          var phone_number = prompt("Please enter customer phone number:", "09**-***-***");
-          if (phone_number == null || phone_number == "") {
-            txt = "User cancelled the prompt.";
-          } else {
-            txt = "Hello " + phone_number + "!";
-          }
-          document.getElementById("demo").innerHTML = txt;
-        }
-        </script>
-
-        <iframe name='addMember' src="/add_member" height="100" width="600" frameborder='0'> </iframe>
+        <iframe name='addMember' height="100" width="600" frameborder='0'> </iframe>
 				
 
 	</body>
