@@ -24,6 +24,7 @@ class Ingredient(models.Model):
     ingredient_name = models.CharField(max_length=20)
     amount = models.DecimalField(max_digits=5, decimal_places=0)
     is_processed = models.BooleanField(default=False)
+    is_sufficient=models.BooleanField(default=False)
     supplier = models.ManyToManyField(Supplier, through='Ingredient_offerd_by_supplier')
 
     def __str__(self):              

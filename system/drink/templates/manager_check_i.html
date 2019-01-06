@@ -2,37 +2,43 @@
 	<head>
 		<title></title>
 		<style>    
+		table,td,th{
+			border: 1px solid black;
+		}
 		</style>
 	<body>
+		<h2>For Manager</h2>
 		<table>
 			<tr>
 				<th>ingredient_name</th>
 				<th>amount</th>
 				<th>is_processed</th>
-				<th>status</th>>
-				<th></th>>
+				<th>is_sufficient</th>
+				<th></th>
 			</tr>
 			
 			{%for i in pi_list%}
 			{%if i.amount < level %}
-				<tr style="color:red">
+				<tr id="i_row" style="color:red">
 				{%else%}
-				<tr>
+				<tr id="i_row">
 			{%endif%}
 				<td>{{i.ingredient_name}}</td>
 				<td>{{i.amount}}</td>
 				<td>{{i.is_processed}}</td>
-				<td></td>>
+				<td>{{i.is_sufficient}}</td>
 				<td><a href="">ordernow!</a></td>
 			</tr>
 			{%endfor%}
 		</table>
-		
+		<br><br>
+		<h2>For employees</h2>
 		<table>
 			<tr>
 				<th>ingredient_name</th>
 				<th>amount</th>
 				<th>is_processed</th>
+				<th>is_sufficient</th>
 			</tr>
 			
 			{%for i in i_list%}
@@ -44,6 +50,7 @@
 				<td>{{i.ingredient_name}}</td>
 				<td>{{i.amount}}</td>
 				<td>{{i.is_processed}}</td>
+				<td>{{i.is_sufficient}}</td>
 			</tr>
 			{%endfor%}
 		</table>

@@ -1,6 +1,7 @@
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
-from drink.models import Customer,Ingredient,Order, Order_has_product, Product   
+from drink.models import Customer,Ingredient,Order, Order_has_product, Product
+from scipy import stats
 import datetime
 
 
@@ -62,12 +63,10 @@ def order(request):
 def list_ingredient(request):
         pi_list=list(Ingredient.objects.all().filter(is_processed=False))
         i_list=list(Ingredient.objects.all().filter(is_processed=True))
-        level=10
+        level=getROP()
         return render(request,'manager_check_i.html',locals())
-        
-def level_setup(request):
-    #單期訂購模型
-    
+
+def getROP():
     #再訂購點訂購法
     default_LT=4
     default_d=2
@@ -79,8 +78,12 @@ def level_setup(request):
     sigma=default_sigma
     accepted_risk=default_accepted_risk
 
-    ROP=d * LT + (100-accepted_risk)/100*sigma*LT**0.5
-
+    ROP=d * LT + stats.norm.ppf((100-accepted_risk)/100)*sigma*LT**0.5
+    return ROP
+def level_setup(request):
+    #單期訂購模型
+    #再訂購點訂購法
+    ROP=getROP()
     #數量折扣模型
 
     Q=10 #訂購數量
