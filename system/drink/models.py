@@ -38,6 +38,13 @@ class Product(models.Model):
     def __str__(self):              
         return self.product_name
 
+class ROP_Parameters(models.Model):
+    ingredient_name = models.CharField(max_length=20)
+    LT = models.FloatField()
+    d  = models.FloatField()
+    sigma = models.FloatField()
+    accepted_risk= models.FloatField()
+
 class Order(models.Model):
     id = models.IntegerField(primary_key=True)
     date = models.DateTimeField()

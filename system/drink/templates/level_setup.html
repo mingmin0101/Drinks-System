@@ -3,23 +3,37 @@
 		<title>Level Setup</title>
 	</head>
 	<body>
-		<form>
-			<label for="LT">LT: </label>
-			<input name="LT" id="LT" type="text" value="{{default_LT}}">
-			<br>
-			<label for="d">𝑑: </label>
-			<input name="d" id="d" type="text" value="{{default_d}}">
-			<br>
-			<label for="sigma">sigma: </label>
-			<input name="sigma" id="sigma" type="text" value="{{default_sigma}}">
-			<br>
-			<label for="a_risk">accepted_risk: </label>
-			<input name="a_risk" id="a_risk" type="text" value="{{default_accepted_risk}}">
-			<br>
+		<form method="GET" action="">
+			<table>
+				<tr>
+					<th>ingredient</th>
+					<th>LT</th>
+					<th>d</th>
+					<th>sigma</th>
+					<th>accepted_risk</th>
+				</tr>
+				{%for i in i_para_list%}
+				<tr>
+					<td>{{i.ingredient_name}}</td>
+					<td>
+						<input name="{{i.ingredient_name}}_LT" id="{{i.ingredient_name}}_LT type="text" value="{{i.LT}}">
+					</td>
+					<td>
+						<input name="{{i.ingredient_name}}_d" id="{{i.ingredient_name}}_d" type="text" value="{{i.d}}">
+					</td>
+					<td>
+						<input name="{{i.ingredient_name}}_sigma" id="{{i.ingredient_name}}_sigma" type="text" value="{{i.sigma}}">	
+					</td>
+					<td>
+						<input name="{{i.ingredient_name}}_accepted_risk" id="{{i.ingredient_name}}_accepted_risk" type="text" value="{{i.accepted_risk}}">
+					</td>
+				</tr>
+				{%endfor%}
+			</table>
 			<input type="submit" value="calculate">
 		</form>
 			
-			<h2>ROP equals {{ROP}}</h2>
+			<h2>{{ROP_list}}</h2>
 		
 	</body>
 

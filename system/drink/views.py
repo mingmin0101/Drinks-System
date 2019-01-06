@@ -1,9 +1,13 @@
 from django.shortcuts import render, render_to_response
-from django.http import HttpResponse
-from drink.models import Customer,Ingredient,Order, Order_has_product, Product
+from django.http import HttpResponse,HttpResponseRedirect
+from drink.models import Customer,Ingredient,Order, Order_has_product, Product,ROP_Parameters
 from scipy import stats
 import datetime
 
+DEFAULT_LT=4
+DEFAULT_D=2
+DEFAULT_SIGMA=0.1
+DEFAULT_ACCEPTED_RISK=1.5
 
 def main_page(request):
 
@@ -63,27 +67,41 @@ def order(request):
 def list_ingredient(request):
         pi_list=list(Ingredient.objects.all().filter(is_processed=False))
         i_list=list(Ingredient.objects.all().filter(is_processed=True))
-        level=getROP()
         return render(request,'manager_check_i.html',locals())
 
-def getROP():
+def getROP(LT,d,sigma,accepted_risk):
     #再訂購點訂購法
-    default_LT=4
-    default_d=2
-    default_sigma=0.1
-    default_accepted_risk=1.5
-
-    LT=default_LT
-    d=default_d
-    sigma=default_sigma
-    accepted_risk=default_accepted_risk
-
     ROP=d * LT + stats.norm.ppf((100-accepted_risk)/100)*sigma*LT**0.5
     return ROP
+
 def level_setup(request):
-    #單期訂購模型
+    i_para_list=list(ROP_Parameters.objects.all())
+    ROP_list=[]
     #再訂購點訂購法
-    ROP=getROP()
+
+    for i in i_para_list:
+        ingredient_name=0
+        green_tea_LT = 0
+        green_tea_d = 0
+        green_tea_sigma = 0
+        green_tea_accepted_risk = 0
+
+        if(green_tea_LT in request.GET and green_tea_d in request.GET and green_tea_sigma in request.GET and green_tea_accepted_risk in request.GET):
+            LT = float(request.GET['LT'])
+            d=float(request.GET['d'])
+            sigma=float(request.GET['sigma'])
+            accepted_risk=float(request.GET['a_risk'])
+
+            i.LT=LT
+            i.d=d
+            i.sigma=sigma
+            i.accepted_risk=accepted_risk
+            i.save()
+
+            ROP_list.append(getROP(LT,d,sigma,accepted_risk))
+            return HttpResponse("FUck")
+
+    #單期訂購模型
     #數量折扣模型
 
     Q=10 #訂購數量
@@ -98,23 +116,6 @@ def level_setup(request):
     total_cost = holding_cost + order_cost + purchase_cost
 
     return render(request,'level_setup.html',locals())
-
-def check_ingredientl(request):
-    i_list=list(Ingredient.objects.all())
-
-    low_lev_i=[]
-    low_lev_processed_i=[]
-    low_lev_unprocessed_i=[]
-
-    for i in i_list:
-        if i.amount<10:
-            low_lev_i.append([i.ingredient_name,i.is_processed,i.amount])
-            if i.is_processed:
-                low_lev_processed_i.append([i.ingredient_name,i.is_processed,i.amount])
-            else:
-                low_lev_unprocessed_i.append([i.ingredient_name,i.is_processed,i.amount])
-
-    return HttpResponse(low_lev_i)
 
 def analyze_c_info(request):
     c_list=list(Customer.objects.all())
