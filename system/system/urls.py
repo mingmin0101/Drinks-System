@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from drink.views import order, add_member,list_ingredient,level_setup
+from drink.views import main_page,order,add_member,list_ingredient,level_setup
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('main_page/' , main_page),
     path('add_member/', add_member),
     path('order/', order),
     path('listingredient/',list_ingredient),

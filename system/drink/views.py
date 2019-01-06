@@ -1,7 +1,12 @@
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
-from drink.models import Customer,Ingredient
+from drink.models import Customer,Ingredient,Order, Order_has_product, Product   
+import datetime
 
+
+def main_page(request):
+
+    return render_to_response('main_page.html')
 
 def add_member(request):
     if ('customer_name' in request.GET and request.GET['customer_name']) and ('phone' in request.GET and request.GET['phone']) and ('gender' in request.GET and request.GET['gender']) :
@@ -11,11 +16,32 @@ def add_member(request):
         Customer.objects.create(name=name, customer_phone=phone, gender=gender, points=0)
     return render_to_response('add_member.html',locals())
 
-
-
 def order(request):
+    #order_has_product_set = Order_has_product.objects.get(order=Order.objects.get(id=1))
+    if('createOrder' in request.GET and request.GET['createOrder']
+        and 'drink' in request.GET
+        and 'size' in request.GET
+        and 'sugar' in request.GET
+        and 'ice' in request.GET):
+        noMember = Customer.objects.get(name='noMember')
+        orderCreate_date = datetime.datetime.now()
+        orderCreate = Order(date=orderCreate_date , total_price=0, customer=noMember)
+        orderCreate.save()
+        orderid = Order.objects.get(date=orderCreate_date).id
+        ordernum = {'num':orderid }
+
+        size = request.GET['size']
+        sugar = request.GET['sugar']
+        ice = request.GET['ice']
+        order = Order.objects.get(id=orderid)
+        product = Product.objects.get(product_name=request.GET['drink'])
+            
+        order_has_product_set = Order_has_product.objects.get(order=Order.objects.get(id=1))
+        Order_has_product.objects.create(cup_size=size, ice_level=ice, sugar_level=sugar, product=product, order=order)
     
-    return HttpResponse('成功撰寫視圖函式')
+
+    return render_to_response('order.html', locals())
+
 
 def list_ingredient(request):
         pi_list=list(Ingredient.objects.all().filter(is_processed=False))

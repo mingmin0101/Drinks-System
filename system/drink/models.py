@@ -45,7 +45,7 @@ class Order(models.Model):
     product = models.ManyToManyField(Product, through='Order_has_product')
 
     def __str__(self):              
-        return self.id
+        return str(self.order.id)
 
 
 
@@ -55,11 +55,12 @@ class Order_has_product(models.Model):
     cup_size = models.CharField(max_length=10)
     ice_level = models.CharField(max_length=10)
     sugar_level = models.CharField(max_length=10)
+    amount = models.DecimalField(max_digits=3, decimal_places=0)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     
     def __str__(self):              
-        return self.order.id + self.product.product_name 
+        return "order no." + str(self.order.id) + ", product: " + self.product.product_name 
 
 class Product_made_by_ingredient(models.Model):
     amount = models.DecimalField(max_digits=5, decimal_places=0)

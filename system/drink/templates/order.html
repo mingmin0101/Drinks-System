@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        
+		<title></title>
+    
+	</head>
+	<body>
+        
+        <form method="GET" action="" >
+    
+        <table>
+          <tr>
+            <th>商品</th>
+            <th>甜度</th>
+            <th>冰塊</th>
+            <th>尺寸</th>
+            <th>數量</th>
+          </tr>
+          
+          <tr>
+            <td>
+                <select id="drink" name="drink" required>
+                <option value="red_tea">紅茶</option>
+                <option value="green_tea">綠茶</option>
+                <option value="milktea">鮮奶茶</option>
+                <option value="green_milktea">奶綠</option>
+                <option value="bubble_milktea">珍珠鮮奶茶</option>
+                <option value="bubble_green_milktea">珍珠奶綠</option>
+                </select>
+            </td>
+            <td>
+                <select id="sugar" name="sugar" required>
+                <option value="sugar4">全糖</option>
+                <option value="sugar3">少糖</option>
+                <option value="sugar2">半糖</option>
+                <option value="sugar1">微糖</option>
+                <option value="sugar0">無糖</option>
+                </select>
+            </td>
+            <td>
+                <select id="ice" name="ice" required>
+                <option value="iceFull">正常</option>
+                <option value="iceLess">少冰</option>
+                <option value="iceNon">去冰</option>
+                <option value="hot">溫熱</option>
+                </select>
+            </td>
+            <td>
+                <select id="size" name="size" required>
+                <option value="midium">中杯</option>
+                <option value="large">大杯</option>
+                </select>
+            </td>
+            <td>
+                <input type="number" id="num_of_drink" name="num_of_drink" min="0" max="10">
+            </td>
+          </tr>
+
+      
+        </table>
+        <button type="button" name='add' onclick='addColumn()'> 新增品項 </button>
+        <input type='submit' name='createOrder' value='完成訂單'>
+        <p> 訂單編號 : {{ ordernum.num }} </p>
+        {% for orders in order_has_product_set.all %}
+            <tr>
+                <td>{{ orders.product }}</td>
+                <td>{{ orders.sugar_level }}</td>
+                <td>{{ orders.ice_level }}</td>
+                <td>{{ orders.cup_size }}</td>
+                <td>1</td>  
+            </tr>
+        {% endfor %}
+
+        <br>
+        <br>
+        <br>
+
+
+
+		
+			<label for="customer_phone">顧客手機號碼:</label>
+			<input type="text" id="customer_phone" name="customer_phone"><br>
+			
+		</form>
+			<!--Dropdown boxes-->
+		
+        
+        <button onclick="myFunction()">Check Membership</button>
+        <p id="demo"></p>
+
+        <script>
+        function addColumn(){
+
+
+        }
+        function myFunction() {
+          var txt;
+          
+          var phone_number = prompt("Please enter customer phone number:", "09**-***-***");
+          if (phone_number == null || phone_number == "") {
+            txt = "User cancelled the prompt.";
+          } else {
+            txt = "Hello " + phone_number + "!";
+          }
+          document.getElementById("demo").innerHTML = txt;
+        }
+        </script>
+
+        <iframe name='addMember' src="/add_member" height="100" width="600" frameborder='0'> </iframe>
+				
+
+	</body>
+</html>
