@@ -1,13 +1,16 @@
 <html>
 	<head>
 		<title></title>
-	</head>
+		<style>    
+		</style>
 	<body>
 		<table>
 			<tr>
 				<th>ingredient_name</th>
 				<th>amount</th>
 				<th>is_processed</th>
+				<th>status</th>>
+				<th></th>>
 			</tr>
 			
 			{%for i in pi_list%}
@@ -19,6 +22,8 @@
 				<td>{{i.ingredient_name}}</td>
 				<td>{{i.amount}}</td>
 				<td>{{i.is_processed}}</td>
+				<td></td>>
+				<td><a href="">ordernow!</a></td>
 			</tr>
 			{%endfor%}
 		</table>
