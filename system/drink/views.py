@@ -80,17 +80,16 @@ def level_setup(request):
     #再訂購點訂購法
 
     for i in i_para_list:
-        ingredient_name=0
-        green_tea_LT = 0
-        green_tea_d = 0
-        green_tea_sigma = 0
-        green_tea_accepted_risk = 0
+        LT_str=str(i.ingredient_name)+"_LT"
+        d_str=str(i.ingredient_name)+"_d"
+        sigma_str=str(i.ingredient_name)+"_sigma"
+        accepted_risk_str=str(i.ingredient_name)+"_accepted_risk"
 
-        if(green_tea_LT in request.GET and green_tea_d in request.GET and green_tea_sigma in request.GET and green_tea_accepted_risk in request.GET):
-            LT = float(request.GET['LT'])
-            d=float(request.GET['d'])
-            sigma=float(request.GET['sigma'])
-            accepted_risk=float(request.GET['a_risk'])
+        if(LT_str in request.GET and d_str in request.GET and sigma_str in request.GET and accepted_risk_str in request.GET):
+            LT = float(request.GET[LT_str])
+            d  = float(request.GET[d_str])
+            sigma=float(request.GET[sigma_str])
+            accepted_risk=float(request.GET[accepted_risk_str])
 
             i.LT=LT
             i.d=d
@@ -99,7 +98,6 @@ def level_setup(request):
             i.save()
 
             ROP_list.append(getROP(LT,d,sigma,accepted_risk))
-            return HttpResponse("FUck")
 
     #單期訂購模型
     #數量折扣模型
