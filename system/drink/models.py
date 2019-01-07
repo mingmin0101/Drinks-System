@@ -44,6 +44,14 @@ class ROP_Parameters(models.Model):
     d  = models.FloatField()
     sigma = models.FloatField()
     accepted_risk= models.FloatField()
+    ROP = models.FloatField(default=0)
+
+class S0_Parameters(models.Model):
+    ingredient_name = models.CharField(max_length=20)
+    d  = models.FloatField()
+    sigma = models.FloatField()
+    accepted_risk= models.FloatField()
+    S0 = models.FloatField(default=0)
 
 class Order(models.Model):
     id = models.IntegerField(primary_key=True)

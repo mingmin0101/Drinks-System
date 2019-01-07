@@ -1,5 +1,5 @@
 from django.contrib import admin
-from drink.models import Customer, Supplier, Ingredient, Product, Order, Order_has_product, Product_made_by_ingredient, Ingredient_offerd_by_supplier,ROP_Parameters
+from drink.models import Customer, Supplier, Ingredient, Product, Order, Order_has_product, Product_made_by_ingredient, Ingredient_offerd_by_supplier,ROP_Parameters,S0_Parameters
 
 
 class IngredientAdmin(admin.ModelAdmin):
@@ -15,4 +15,5 @@ admin.site.register(Order)
 admin.site.register(Order_has_product)         
 admin.site.register(Product_made_by_ingredient)         
 admin.site.register(Ingredient_offerd_by_supplier)   
-admin.site.register(ROP_Parameters)               
+admin.site.register(ROP_Parameters)              
+admin.site.register(S0_Parameters)     

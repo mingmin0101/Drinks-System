@@ -1,6 +1,6 @@
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse,HttpResponseRedirect
-from drink.models import Customer,Ingredient,Order, Order_has_product, Product,ROP_Parameters
+from drink.models import Customer,Ingredient,Order, Order_has_product, Product,ROP_Parameters,S0_Parameters
 from scipy import stats
 import datetime
 import json
@@ -52,6 +52,7 @@ def order(request):
 def list_ingredient(request):
         pi_list=list(Ingredient.objects.all().filter(is_processed=False))
         i_list=list(Ingredient.objects.all().filter(is_processed=True))
+        
         return render(request,'manager_check_i.html',locals())
 
 def getROP(LT,d,sigma,accepted_risk):
@@ -59,9 +60,13 @@ def getROP(LT,d,sigma,accepted_risk):
     ROP=d * LT + stats.norm.ppf((100-accepted_risk)/100)*sigma*LT**0.5
     return ROP
 
+def getS0(d,sigma,accepted_risk):
+    S0=d + stats.norm.ppf((100-accepted_risk)/100)*sigma
+    return S0
+
 def level_setup(request):
     i_para_list=list(ROP_Parameters.objects.all())
-    ROP_list=[]
+    i_para_list2=list(S0_Parameters.objects.all())
     #再訂購點訂購法
 
     for i in i_para_list:
@@ -80,11 +85,30 @@ def level_setup(request):
             i.d=d
             i.sigma=sigma
             i.accepted_risk=accepted_risk
+            i.ROP=getROP(LT,d,sigma,accepted_risk)
             i.save()
 
-            ROP_list.append(getROP(LT,d,sigma,accepted_risk))
 
+    for i in i_para_list2:
+        d_str=str(i.ingredient_name)+"_d"
+        sigma_str=str(i.ingredient_name)+"_sigma"
+        accepted_risk_str=str(i.ingredient_name)+"_accepted_risk"
+
+        if(d_str in request.GET and sigma_str in request.GET and accepted_risk_str in request.GET):
+            d  = float(request.GET[d_str])
+            sigma=float(request.GET[sigma_str])
+            accepted_risk=float(request.GET[accepted_risk_str])
+
+            i.d=d
+            i.sigma=sigma
+            i.accepted_risk=accepted_risk
+            i.S0=getS0(d,sigma,accepted_risk)
+            i.save()
+    
+    return render(request,'level_setup.html',locals())
     #單期訂購模型
+
+"""
     #數量折扣模型
 
     Q=10 #訂購數量
@@ -97,8 +121,7 @@ def level_setup(request):
     purchase_cost = P*D
 
     total_cost = holding_cost + order_cost + purchase_cost
-
-    return render(request,'level_setup.html',locals())
+"""
 
 def analyze_c_info(request):
     c_list=list(Customer.objects.all())
