@@ -6,6 +6,8 @@
 			border: 1px solid black;
 		}
 		</style>
+
+	</head>
 	<body>
 		<h2>For Manager</h2>
 		<table>
@@ -41,21 +43,30 @@
 			<tr>
 				<th>ingredient_name</th>
 				<th>amount</th>
+				<th>process</th>
 			</tr>
 			
 			{%for i in processed_i_list%}
-			{%if i.amount < i_para_dict|get_item:i.ingredient_name %}
+			{%if i.amount < pi_para_dict|get_item:i.ingredient_name %}
 				<tr style="color:red">
-				{%else%}
+			{%else%}
 				<tr>
 			{%endif%}
 				<td>{{i.ingredient_name}}</td>
 				<td>{{i.amount}}</td>
+				<form method="GET" action="">
+					<td>
+						<input name="{{i.ingredient_name}}_processamount" id="{{i.ingredient_name}}_processamount" type="number" value=0>	
+					</td>
+					<td>
+						<input type="submit" value="ProcessIngredient">
+					</td>
+				</form>
 			</tr>
 			{%endfor%}
 		</table>
 		<form method="GET" action="/level_setup/">
-			<input type="submit" value="安全存量設置">
+			<input type="submit" value="ROP與S0相關設定">
 		</form>
 		
 	</body>

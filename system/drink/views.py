@@ -86,24 +86,24 @@ def get_item(dictionary, key):
 def list_ingredient(request):
         i_list=list(Ingredient.objects.all().filter(is_processed=False))
         processed_i_list=list(Ingredient.objects.all().filter(is_processed=True))
-        i_para_dict={}
-
-        i_para_list_ROP=list(ROP_Parameters.objects.all())
-        for i in i_para_list_ROP:
-            i_para_dict[i.ingredient_name]=i.ROP
-
-        i_para_list_S0=list(S0_Parameters.objects.all())
-        for i in i_para_list_S0:
-            i_para_dict[i.ingredient_name]=i.S0
-
-
+        i_para_dict=geti_level_dict()
+        pi_para_dict=getp_i_level_dict()
 
         for i in i_list:
             i_order_amount_str=i.ingredient_name+"_orderamount"
             if i.ingredient_name+"_orderamount" in request.GET:
-                i.amount = i.amount + int(request.GET[i.ingredient_name+"_orderamount"])
-                i.save()
-
+                order_val=int(request.GET[i.ingredient_name+"_orderamount"])
+                if order_val > 0:
+                    i.amount = i.amount + order_val
+                    i.save()
+        
+        for i in processed_i_list:
+            i_process_amount_str=i.ingredient_name+"_processamount"
+            if i.ingredient_name+"_processamount" in request.GET:
+                process_val=int(request.GET[i.ingredient_name+"_processamount"])
+                if process_val > 0:
+                    i.amount = i.amount + process_val
+                    i.save()
 
         return render(request,'manager_check_i.html',locals())
 
@@ -113,13 +113,13 @@ def getROP(LT,d,sigma,accepted_risk):
     return ROP
 
 def getS0(d,sigma,accepted_risk):
+    #單期訂購法
     S0=d + stats.norm.ppf((100-accepted_risk)/100)*sigma
     return S0
 
 def level_setup(request):
     i_para_list_ROP=list(ROP_Parameters.objects.all())
     i_para_list_S0=list(S0_Parameters.objects.all())
-
 
     #再訂購點訂購法
     for i in i_para_list_ROP:
@@ -141,7 +141,6 @@ def level_setup(request):
             i.ROP=getROP(LT,d,sigma,accepted_risk)
             i.save()
 
-
     for i in i_para_list_S0:
         d_str=str(i.ingredient_name)+"_d"
         sigma_str=str(i.ingredient_name)+"_sigma"
@@ -159,22 +158,26 @@ def level_setup(request):
             i.save()
 
     return render(request,'level_setup.html',locals())
-    #單期訂購模型
 
-"""
-    #數量折扣模型
+def getp_i_level_dict():
+    p_i_dict={}
+    p_i_dict['bubble_p']=20
+    p_i_dict['green_tea_p']=20
+    p_i_dict['red_tea_p']=20
 
-    Q=10 #訂購數量
-    H=5  #每單位持有成本
-    D=1  #需求
-    P=3  #單位價格
+    return p_i_dict
 
-    holding_cost = (Q/2)*H
-    order_cost = D/Q
-    purchase_cost = P*D
+def geti_level_dict():
+    i_para_dict={}
+    i_para_list_ROP=list(ROP_Parameters.objects.all())
+    for i in i_para_list_ROP:
+        i_para_dict[i.ingredient_name]=i.ROP
 
-    total_cost = holding_cost + order_cost + purchase_cost
-"""
+    i_para_list_S0=list(S0_Parameters.objects.all())
+    for i in i_para_list_S0:
+        i_para_dict[i.ingredient_name]=i.S0
+    return i_para_dict
+
 
 def analyze_c_info(request):
     c_list=list(Customer.objects.all())
