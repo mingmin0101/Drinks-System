@@ -84,17 +84,26 @@ def get_item(dictionary, key):
     return dictionary.get(key)
 
 def list_ingredient(request):
-        pi_list=list(Ingredient.objects.all().filter(is_processed=False))
-        i_list=list(Ingredient.objects.all().filter(is_processed=True))
+        i_list=list(Ingredient.objects.all().filter(is_processed=False))
+        processed_i_list=list(Ingredient.objects.all().filter(is_processed=True))
         i_para_dict={}
 
-        i_para_list=list(ROP_Parameters.objects.all())
-        for i in i_para_list:
+        i_para_list_ROP=list(ROP_Parameters.objects.all())
+        for i in i_para_list_ROP:
             i_para_dict[i.ingredient_name]=i.ROP
 
-        i_para_list2=list(S0_Parameters.objects.all())
-        for i in i_para_list2:
+        i_para_list_S0=list(S0_Parameters.objects.all())
+        for i in i_para_list_S0:
             i_para_dict[i.ingredient_name]=i.S0
+
+
+
+        for i in i_list:
+            i_order_amount_str=i.ingredient_name+"_orderamount"
+            if i.ingredient_name+"_orderamount" in request.GET:
+                i.amount = i.amount + int(request.GET[i.ingredient_name+"_orderamount"])
+                i.save()
+
 
         return render(request,'manager_check_i.html',locals())
 
@@ -108,13 +117,12 @@ def getS0(d,sigma,accepted_risk):
     return S0
 
 def level_setup(request):
-    i_para_list=list(ROP_Parameters.objects.all())
-    i_para_list2=list(S0_Parameters.objects.all())
+    i_para_list_ROP=list(ROP_Parameters.objects.all())
+    i_para_list_S0=list(S0_Parameters.objects.all())
 
 
     #再訂購點訂購法
-
-    for i in i_para_list:
+    for i in i_para_list_ROP:
         LT_str=str(i.ingredient_name)+"_LT"
         d_str=str(i.ingredient_name)+"_d"
         sigma_str=str(i.ingredient_name)+"_sigma"
@@ -134,7 +142,7 @@ def level_setup(request):
             i.save()
 
 
-    for i in i_para_list2:
+    for i in i_para_list_S0:
         d_str=str(i.ingredient_name)+"_d"
         sigma_str=str(i.ingredient_name)+"_sigma"
         accepted_risk_str=str(i.ingredient_name)+"_accepted_risk"
@@ -149,7 +157,7 @@ def level_setup(request):
             i.accepted_risk=accepted_risk
             i.S0=getS0(d,sigma,accepted_risk)
             i.save()
-    
+
     return render(request,'level_setup.html',locals())
     #單期訂購模型
 

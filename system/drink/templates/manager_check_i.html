@@ -12,41 +12,45 @@
 			<tr>
 				<th>ingredient_name</th>
 				<th>amount</th>
-				<th>is_sufficient</th>
-				<th></th>
+				<th>order</th>
 			</tr>
 		
-			{%for i in pi_list%}
+			{%for i in i_list%}
 			{%if i.amount < i_para_dict|get_item:i.ingredient_name %}
 				<tr id="i_row" style="color:red">
-				{%else%}
+			{%else%}
 				<tr id="i_row">
 			{%endif%}
 				<td>{{i.ingredient_name}}</td>
 				<td>{{i.amount}}</td>
-				<td>{{i.is_sufficient}}</td>
-				<td><a href="">ordernow!</a></td>
+				<form method="GET" action="">
+					<td>
+						<input name="{{i.ingredient_name}}_orderamount" id="{{i.ingredient_name}}_orderamount" type="number" value=0>	
+					</td>
+					<td>
+						<input type="submit" value="ordernow!">
+					</td>
+				</form>
 			</tr>
 			{%endfor%}
 		</table>
 		<br><br>
+
 		<h2>For employees</h2>
 		<table>
 			<tr>
 				<th>ingredient_name</th>
 				<th>amount</th>
-				<th>is_sufficient</th>
 			</tr>
 			
-			{%for i in i_list%}
-			{%if i.amount < level %}
+			{%for i in processed_i_list%}
+			{%if i.amount < i_para_dict|get_item:i.ingredient_name %}
 				<tr style="color:red">
 				{%else%}
 				<tr>
 			{%endif%}
 				<td>{{i.ingredient_name}}</td>
 				<td>{{i.amount}}</td>
-				<td>{{i.is_sufficient}}</td>
 			</tr>
 			{%endfor%}
 		</table>
