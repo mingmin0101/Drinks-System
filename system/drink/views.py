@@ -20,7 +20,25 @@ def add_member(request):
         name = request.GET['customer_name']
         phone = request.GET['phone']
         gender = request.GET['gender']
-        Customer.objects.create(name=name, customer_phone=phone, gender=gender, points=0)
+        memberAdded_date = datetime.datetime.now()
+        lastOrder_date = datetime.datetime.now()
+        Customer.objects.create(name=name, customer_phone=phone, gender=gender, points=0, create_time=memberAdded_date, latest_order_time=lastOrder_date)
+    
+    if('customer_phone' in request.GET and request.GET['customer_phone']):
+        
+        custo = Customer.objects.filter(customer_phone=request.GET['customer_phone'])
+        if custo.exists():
+            custom = Customer.objects.get(customer_phone=request.GET['customer_phone'])
+            custo_name = custom.name
+            custo_phone = custom.customer_phone
+            custo_gender = custom.gender
+            custo_point = custom.points
+        else:
+            custo_name = "noMember"
+            custo_phone = "noMember"
+            custo_gender = "noMember"
+            custo_point = "0"
+
     return render_to_response('add_member.html',locals())
 
 def order(request):
@@ -34,9 +52,17 @@ def order(request):
         orderid = Order.objects.get(date=orderCreate_date).id
         ordernum = {'num':orderid }
 
+        # 如果有會員，更新資料
+        orderCusto = request.GET['custoData']
+        thisOrder = Order.objects.filter(date=orderCreate_date)
+        custo = Customer.objects.filter(customer_phone=request.GET['custoData'])
+        if custo.exists():
+            thisOrder.update(customer = Customer.objects.get(customer_phone=orderCusto))
+        
         # 新增這筆Order資料裡面的所有Order_has_product資料
         orderArray = request.GET['genOrder']
         orderArray1 = json.loads(orderArray)
+        sumDollar = 0
         for orderItem in orderArray1:
             drink = orderItem.get('drink')
             sugar = orderItem.get('sugar')
@@ -46,7 +72,10 @@ def order(request):
             order = Order.objects.get(id=orderid)
             product = Product.objects.get(product_name=drink)
             Order_has_product.objects.create(cup_size=size, ice_level=ice, sugar_level=sugar, amount=order_num, product=product, order=order)
+            sumDollar += product.price * int(order_num)
 
+        thisOrder.update(total_price=sumDollar)
+    
     return render_to_response('order.html', locals())
 
 
