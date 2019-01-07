@@ -3,11 +3,53 @@
     <head>
         <title> Join Member </title>
         <meta charset="utf-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <style type="text/css">
+        button {
+          background-color: #e7e7e7; 
+          color: black;
+          border: none;
+          padding: 10px 30px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 12px;
+        }
+        </style>
         
     </head>
     <body>
+        <input class="form-control" type="text" id="customer_phone2" name="customer_phone2" value="{{ custo_phone }}" style="visibility:hidden">
         
         <form method='get' action=''>
+        <div>
+            <label for="customer_phone">顧客手機號碼:</label>
+            <input class="form-control" type="text" id="customer_phone" name="customer_phone"><br>
+            <div align="right"><button type='submit' name='indentityCheck' onclick="identity()">查詢會員資料</button></div>
+            
+            <p>
+                會員性名: {{ custo_name }}
+                會員手機: {{ custo_phone }}
+                點數: {{ custo_point }}
+            </p>
+            <br>
+            <h5>新增資料</h5>
+            <label for="customer_name">顧客姓名:</label>
+            <input class="form-control" type="text" id="customer_name" name="customer_name"><br>
+            <label for="phone">手機:</label>
+            <input class="form-control" type="text" id="phone" name="phone"><br>
+            <label for="gender">性別:</label>
+            <select name="gender" class="form-control" required>
+                <option value="M">男性</option>
+                <option value="F">女性</option>
+            </select>
+
+
+<!--
         <table>
             <tr>
                 <th>name</th>
@@ -16,14 +58,22 @@
             </tr>
         
             <tr>
-                <th><input type="text" name='customer_name'></th>
-                <th><input type="text" name='phone'></th>
-                <th><input type="text" name='ender'></th>   
+                <th><input type="text" name='customer_name' class="form-control"></th>
+                <th><input type="text" name='phone' class="form-control"></th>
+                <th>
+                    <select name="gender" class="form-control" required>
+                        <option value="M">男性</option>
+                        <option value="F">女性</option>
+                    </select>
+                </th>   
             </tr>
         </table>
-        <input type='submit' value='add member'>
+    -->
+        <div align="right" style="padding-top:10px"><button type='submit'>新增會員</button></div>
+        </div>
  
         </form>
+
 
     
     </body>
