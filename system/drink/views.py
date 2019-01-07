@@ -3,6 +3,7 @@ from django.http import HttpResponse,HttpResponseRedirect
 from drink.models import Customer,Ingredient,Order, Order_has_product, Product,ROP_Parameters
 from scipy import stats
 import datetime
+import json
 
 DEFAULT_LT=4
 DEFAULT_D=2
@@ -22,44 +23,28 @@ def add_member(request):
     return render_to_response('add_member.html',locals())
 
 def order(request):
-    #order_has_product_set = Order_has_product.objects.get(order=Order.objects.get(id=1))
-    if('convert' in request.GET and request.GET['convert']
-        and 'drink' in request.GET
-        and 'size' in request.GET
-        and 'sugar' in request.GET
-        and 'ice' in request.GET
-        and 'num_of_drink' in request.GET):
-        drink = request.GET['drink']
-        size = request.GET['size']
-        sugar = request.GET['sugar']
-        ice = request.GET['ice']
-        order_num = request.GET['num_of_drink']
-
-
-
-    if('createOrder' in request.GET and request.GET['createOrder']
-        and 'drink' in request.GET
-        and 'size' in request.GET
-        and 'sugar' in request.GET
-        and 'ice' in request.GET
-        and 'num_of_drink' in request.GET):
+    if('genrateOrder' in request.GET and request.GET['genrateOrder'] and
+        'genOrder' in request.GET and request.GET['genOrder']):
+        # 增加一筆Order資料
+        # 顧客先暫時當作沒有會員
         noMember = Customer.objects.get(name='noMember')
         orderCreate_date = datetime.datetime.now()
-        orderCreate = Order(date=orderCreate_date , total_price=0, customer=noMember)
-        orderCreate.save()
+        orderCreate = Order.objects.create(date=orderCreate_date , total_price=0, customer=noMember)
         orderid = Order.objects.get(date=orderCreate_date).id
         ordernum = {'num':orderid }
 
-        size = request.GET['size']
-        sugar = request.GET['sugar']
-        ice = request.GET['ice']
-        order_num = request.GET['num_of_drink']
-        order = Order.objects.get(id=orderid)
-        product = Product.objects.get(product_name=request.GET['drink'])
-            
-        order_has_product_set = Order_has_product.objects.get(order=Order.objects.get(id=orderid))
-        Order_has_product.objects.create(cup_size=size, ice_level=ice, sugar_level=sugar, product=product, order=order)
-    
+        # 新增這筆Order資料裡面的所有Order_has_product資料
+        orderArray = request.GET['genOrder']
+        orderArray1 = json.loads(orderArray)
+        for orderItem in orderArray1:
+            drink = orderItem.get('drink')
+            sugar = orderItem.get('sugar')
+            ice = orderItem.get('ice')
+            size = orderItem.get('cupsize')
+            order_num = orderItem.get('amount')
+            order = Order.objects.get(id=orderid)
+            product = Product.objects.get(product_name=drink)
+            Order_has_product.objects.create(cup_size=size, ice_level=ice, sugar_level=sugar, amount=order_num, product=product, order=order)
 
     return render_to_response('order.html', locals())
 

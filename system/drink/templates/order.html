@@ -48,6 +48,8 @@
                         }
                     });
                     alert(JSON.stringify(array1));
+                    document.getElementById("This-is-the-real-id").value = JSON.stringify(array1);
+                    document.getElementById("genrateOrder").value = JSON.stringify(array1);
                 });
             })
         </script>
@@ -195,7 +197,11 @@
                             </tr>
                         </table>
                         <div align="right" style="padding-top:10px">
-                        <button type="button" value="Genrate First Table JSON Object" id="btnFirstGenerateJson">送出訂單</button>
+                        <form method='get' action=''>
+                        <input id="This-is-the-real-id" name ='genOrder' type="text" value="" style="visibility:hidden">
+                        <button type="submit" id="btnFirstGenerateJson" name='genrateOrder' value=' '>送出訂單</button>
+                        
+                        </form>
                         
                         </div>
                     </div>
