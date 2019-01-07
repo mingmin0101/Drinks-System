@@ -1,6 +1,7 @@
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse,HttpResponseRedirect
 from drink.models import Customer,Ingredient,Order, Order_has_product, Product,ROP_Parameters,S0_Parameters
+from django.template.defaulttags import register
 from scipy import stats
 import datetime
 import json
@@ -49,10 +50,23 @@ def order(request):
     return render_to_response('order.html', locals())
 
 
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
+
 def list_ingredient(request):
         pi_list=list(Ingredient.objects.all().filter(is_processed=False))
         i_list=list(Ingredient.objects.all().filter(is_processed=True))
-        
+        i_para_dict={}
+
+        i_para_list=list(ROP_Parameters.objects.all())
+        for i in i_para_list:
+            i_para_dict[i.ingredient_name]=i.ROP
+
+        i_para_list2=list(S0_Parameters.objects.all())
+        for i in i_para_list2:
+            i_para_dict[i.ingredient_name]=i.S0
+
         return render(request,'manager_check_i.html',locals())
 
 def getROP(LT,d,sigma,accepted_risk):
@@ -67,6 +81,8 @@ def getS0(d,sigma,accepted_risk):
 def level_setup(request):
     i_para_list=list(ROP_Parameters.objects.all())
     i_para_list2=list(S0_Parameters.objects.all())
+
+
     #再訂購點訂購法
 
     for i in i_para_list:

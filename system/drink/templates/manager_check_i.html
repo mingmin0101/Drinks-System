@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title></title>
+		<title>ManagerCheckIngredient</title>
 		<style>    
 		table,td,th{
 			border: 1px solid black;
@@ -15,9 +15,9 @@
 				<th>is_sufficient</th>
 				<th></th>
 			</tr>
-			
+		
 			{%for i in pi_list%}
-			{%if i.amount < level %}
+			{%if i.amount < i_para_dict|get_item:i.ingredient_name %}
 				<tr id="i_row" style="color:red">
 				{%else%}
 				<tr id="i_row">
@@ -39,7 +39,7 @@
 			</tr>
 			
 			{%for i in i_list%}
-			{%if i.amount < 10 %}
+			{%if i.amount < level %}
 				<tr style="color:red">
 				{%else%}
 				<tr>
