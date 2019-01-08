@@ -1,15 +1,56 @@
 <html>
 	<head>
 		<title>ManagerCheckIngredient</title>
-		<style>    
-		table,td,th{
-			border: 1px solid black;
-		}
-		</style>
+		
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <style>    
+        table, td, th {  
+          border: 1px solid #ddd;
+          text-align: left;
+        }
+
+        table {
+          border-collapse: collapse;
+        }
+
+        th{
+          padding: 15px;
+          text-align:center;
+        }
+
+        td {
+          padding: 5px;
+        }
+        .button {
+          background-color: #e7e7e7; 
+          border: none;
+          padding: 10px 30px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 12px;
+
+        }
+        .button:hover {
+          background-color: #333;
+          color: white;
+        }
+        body {
+            font-family: 微軟正黑體;
+        }
+        
+        
+        </style>
+
 
 	</head>
 	<body>
-		<h2>For Manager</h2>
+		<div class='container' style="padding: 20px;"> 
+        <h2>For Manager</h2>
 		<table>
 			<tr>
 				<th>ingredient_name</th>
@@ -27,15 +68,17 @@
 				<td>{{i.amount}}</td>
 				<form method="GET" action="">
 					<td>
-						<input name="{{i.ingredient_name}}_orderamount" id="{{i.ingredient_name}}_orderamount" type="number" value=0>	
+						<input class="form-control" name="{{i.ingredient_name}}_orderamount" id="{{i.ingredient_name}}_orderamount" type="number" value=0>	
 					</td>
 					<td>
-						<input type="submit" value="ordernow!">
+						<input class='button' type="submit" value="ordernow!">
 					</td>
 				</form>
 			</tr>
 			{%endfor%}
 		</table>
+
+
 		<br><br>
 
 		<h2>For employees</h2>
@@ -56,18 +99,21 @@
 				<td>{{i.amount}}</td>
 				<form method="GET" action="">
 					<td>
-						<input name="{{i.ingredient_name}}_processamount" id="{{i.ingredient_name}}_processamount" type="number" value=0>	
+						<input class="form-control" name="{{i.ingredient_name}}_processamount" id="{{i.ingredient_name}}_processamount" type="number" value=0>	
 					</td>
 					<td>
-						<input type="submit" value="ProcessIngredient">
+						<input class='button' type="submit" value="ProcessIngredient">
 					</td>
 				</form>
 			</tr>
 			{%endfor%}
 		</table>
+        
+        <br>
+
 		<form method="GET" action="/level_setup/">
-			<input type="submit" value="ROP與S0相關設定">
+			<input class='button' type="submit" value="ROP與S0相關設定">
 		</form>
-		
+		</div>
 	</body>
 </html>

@@ -1,10 +1,54 @@
 <html>
 	<head>
 		<title>Level Setup</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</head>
+    <style type="text/css">
+        .button {
+          background-color: #e7e7e7; 
+          color: black;
+          border: none;
+          padding: 10px 30px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 12px;
+        }
+        .button:hover {
+          background-color: #333;
+          color: white;
+        }
+        body {
+            font-family: 微軟正黑體;
+        }
+
+        
+        table, td, th {  
+          border: 1px solid #ddd;
+          text-align: left;
+        }
+
+        table {
+          border-collapse: collapse;
+        }
+
+        th{
+          padding: 15px;
+          text-align:center;
+        }
+
+        td {
+          padding: 5px;
+        }
+    </style>
 	<body>
 		<form method="GET" action="">
-				<h2>Non-Perishable Ingredients<h2>
+			<div class='container' style="padding: 20px;"> 
+            <h2>Non-Perishable Ingredients</h2>
 			<table>
 				<tr>
 					<th>ingredient</th>
@@ -18,16 +62,16 @@
 				<tr>
 					<td>{{i.ingredient_name}}</td>
 					<td>
-						<input name="{{i.ingredient_name}}_LT" id="{{i.ingredient_name}}_LT type="text" value="{{i.LT}}">
+						<input class="form-control" name="{{i.ingredient_name}}_LT" id="{{i.ingredient_name}}_LT type="text" value="{{i.LT}}">
 					</td>
 					<td>
-						<input name="{{i.ingredient_name}}_d" id="{{i.ingredient_name}}_d" type="text" value="{{i.d}}">
+						<input class="form-control" name="{{i.ingredient_name}}_d" id="{{i.ingredient_name}}_d" type="text" value="{{i.d}}">
 					</td>
 					<td>
-						<input name="{{i.ingredient_name}}_sigma" id="{{i.ingredient_name}}_sigma" type="text" value="{{i.sigma}}">	
+						<input class="form-control" name="{{i.ingredient_name}}_sigma" id="{{i.ingredient_name}}_sigma" type="text" value="{{i.sigma}}">	
 					</td>
 					<td>
-						<input name="{{i.ingredient_name}}_accepted_risk" id="{{i.ingredient_name}}_accepted_risk" type="text" value="{{i.accepted_risk}}">
+						<input class="form-control" name="{{i.ingredient_name}}_accepted_risk" id="{{i.ingredient_name}}_accepted_risk" type="text" value="{{i.accepted_risk}}">
 					</td>
 					<td>
 						<p>{{i.ROP}}</p>
@@ -36,7 +80,9 @@
 				{%endfor%}
 			</table>
 
-			<h2>Perishable Ingredients<h2>
+            <br>
+            
+			<h2>Perishable Ingredients</h2>
 			<table>
 				<tr>
 					<th>ingredient</th>
@@ -50,13 +96,13 @@
 				<tr>
 					<td>{{i.ingredient_name}}</td>
 					<td>
-						<input name="{{i.ingredient_name}}_d" id="{{i.ingredient_name}}_d" type="text" value="{{i.d}}">
+						<input class="form-control" name="{{i.ingredient_name}}_d" id="{{i.ingredient_name}}_d" type="text" value="{{i.d}}">
 					</td>
 					<td>
-						<input name="{{i.ingredient_name}}_sigma" id="{{i.ingredient_name}}_sigma" type="text" value="{{i.sigma}}">	
+						<input class="form-control" name="{{i.ingredient_name}}_sigma" id="{{i.ingredient_name}}_sigma" type="text" value="{{i.sigma}}">	
 					</td>
 					<td>
-						<input name="{{i.ingredient_name}}_accepted_risk" id="{{i.ingredient_name}}_accepted_risk" type="text" value="{{i.accepted_risk}}">
+						<input class="form-control" name="{{i.ingredient_name}}_accepted_risk" id="{{i.ingredient_name}}_accepted_risk" type="text" value="{{i.accepted_risk}}">
 					</td>
 					<td>
 						<p>{{i.S0}}</p>
@@ -64,13 +110,16 @@
 				</tr>
 				{%endfor%}
 			</table>
-			<input type="submit" value="calculate">
+            <br>
+			<input class='button' type="submit" value="calculate">
+            
 		</form>
 			
 			<h2>{{ROP_list}}</h2>
 			<h2>{{SO_list}}</h2>
 			<a href="/listingredient">回到存量查看</a>
-		
+		  
+          </div>
 	</body>
 
 </html>
