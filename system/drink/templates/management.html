@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style type="text/css">
+        h1 {
+          text-align: center;
+          font-size: 40px;
+        }
+        body {
+            font-family: 微軟正黑體;
+            margin: 0px;
+            padding-top: 0px;
+        }
+        /* Style the top navigation bar */
+        .topnav {
+          overflow: hidden;
+          background-color: white;
+        }
+
+        /* Style the topnav links */
+        .topnav a {
+          float: left;
+          display: block;
+          text-align: center;
+          padding: 45px 40px;
+          text-decoration: none;
+        }
+
+        .other {
+           color: #9F8170; 
+        }
+
+        /* Change color on hover */
+        .topnav a:hover:not(.active) {
+          background-color: #333;
+          color: white;
+        }
+
+        ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          background-color: #C3B091;
+          font-size: 20px;
+        }
+        
+        li a:hover:not(.active) {
+          background-color: #333;
+          color: black;
+        }
+
+        .active {
+          color: white;
+          background-color: #9F8170;
+        }
+        
+
+    </style>
+
+</head>
+<body>
+
+<ul class="topnav">
+  <li>
+    {% load staticfiles %}
+    <img src=" {% static 'logo.png' %} " style="width:80px; height:80px; float:left; padding-right:15px; padding-top: 20px;" onclick="window.location.href ='/drink_system'"></li>
+  <li><a class='active'>原料存貨檢視</a></li>
+  <li><a class='other' href="#">存貨參數設定</a></li>
+  <li><a class='other' href="#">存貨使用預測</a></li>
+  <li><a class='other' href="#">銷售數據</a></li>
+  <li><a class='other' href="/management/customer_info">顧客管理</a></li>
+  <li><a class='other' href="/admin">資料維護</a></li>
+</ul>
+</body>
+</html>

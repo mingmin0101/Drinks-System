@@ -15,6 +15,10 @@ def main_page(request):
 
     return render_to_response('main_page.html')
 
+def management(request):
+
+    return render_to_response('management.html')
+
 def add_member(request):
     if ('customer_name' in request.GET and request.GET['customer_name']) and ('phone' in request.GET and request.GET['phone']) and ('gender' in request.GET and request.GET['gender']) :
         name = request.GET['customer_name']
@@ -84,6 +88,11 @@ def order(request):
         thisOrder.update(total_price=sumDollar)
     
     return render_to_response('order.html', locals())
+
+
+def customer_info(request):
+    return render_to_response('customer_info.html')
+    
 
 @register.filter
 def get_item(dictionary, key):

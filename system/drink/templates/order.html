@@ -46,6 +46,15 @@
             width: 100%;
             height: 100%;
         }
+        li {
+          float: left;
+        }
+        image {
+        　position:absolute;
+        　top:0px;
+        　left:0px
+        }
+ 
         </style>
         
         <script type="text/javascript">
@@ -64,7 +73,8 @@
                             array1.push(firstTableData);
                         }
                     });
-                    alert(JSON.stringify(array1));
+                    //alert(JSON.stringify(array1));
+                    alert('訂單成功!')
                     document.getElementById("This-is-the-real-id").value = JSON.stringify(array1);
                     document.getElementById("genrateOrder").value = JSON.stringify(array1);
                 });
@@ -95,6 +105,10 @@
           var cell3 = row.insertCell(2);
           var cell4 = row.insertCell(3);
           var cell5 = row.insertCell(4);
+
+          var cell6 = row.insertCell(5);
+          var cell7 = row.insertCell(6);
+
           
           var selObjDrink = document.getElementById("drink");
           var selObjSugar = document.getElementById("sugar");
@@ -107,6 +121,15 @@
           cell3.innerHTML = selObjIce.options[selObjIce.selectedIndex].text;
           cell4.innerHTML = selObjSize.options[selObjSize.selectedIndex].text;
           cell5.innerHTML = selObjNum.value;
+          
+          let price = { 
+            "red_tea":25, "green_tea":25, "milktea":40, "green_milktea":40, "bubble_milktea":50, "green_bubble_milktea":50 
+          }
+
+          cell6.innerHTML = price[selObjDrink.options[selObjDrink.selectedIndex].value];
+          cell7.innerHTML = price[selObjDrink.options[selObjDrink.selectedIndex].value]*selObjNum.value;
+
+          //cell8.innerHTML = price[selObjDrink.options[selObjDrink.selectedIndex].value]*selObjNum.value;
 
         }
         function checkIdentity() {
@@ -123,25 +146,24 @@
             //document.getElementById("addMember").src="/add_member";
         }
         </script>
-        <script>
-        
-        
-        </script>
+
 
   
 	</head>
 	<body>       
-        <!--
-        <button onclick='addRow()' id="run" class="btn btn-primary"> 新增品項 </button>
-        -->
-        <div class="page-header text-center">
-          <h1 onclick="window.location.href ='/main_page'">Drink System</h1>
-        </div>
-            
-        <div class='container'>
+        <br>
+        {% load staticfiles %}
+        <img src=" {% static 'logo.png' %} " style="width:80px;height:80px;" onclick="window.location.href ='/drink_system'" align="left">
+        <img src=" {% static 'white.png' %} " style="width:80px;height:80px;" align="right"> 
+        
+        <b><p style="font-size: 40px;padding: 12px;" align="center">點 餐 ORDER</p></b>
+
+        <hr>
+
+           
+        <div class='container-fluid'>
         <div class="row">
         <div class="col-sm-8" >
-            
             <div class="panel-group">
                 <div class="panel panel-default">
                     <div class="panel-heading" >新增餐點</div>
@@ -186,7 +208,6 @@
                             <td id='order_size'>
                                 <select id="size" name="size" class="form-control" required>
                                 <option value="midium">中杯</option>
-                                <option value="large">大杯</option>
                                 </select>
                             </td>
                             <td id='order_num' >
@@ -211,93 +232,70 @@
                                 <th>冰塊</th>
                                 <th>尺寸</th>
                                 <th>數量</th>
+                                <th>單價</th>
+                                <th>小計</th>
                             </tr>
                         </table>
                         <div align="right" style="padding-top:10px">
+                        <button type="submit" onclick='Del()' style="margin-bottom:10px">刪除訂單</button>
                         <form method='get' action=''>
                         <input id="This-is-the-real-id" name ='genOrder' type="text" value="" style="visibility:hidden">
                         <input id="custoData" name='custoData' type="text" value="" style="visibility:hidden">
                         <button type="submit" id="btnFirstGenerateJson" name='genrateOrder' value=' ' onclick='myFunction()'>送出訂單</button>
+                        </form>
+                        
+                        
                         <script>
                         function myFunction(){
-                        var y = frames.addMember.document
-                            if (y){
-                                alert(y.getElementsByTagName("input")[3].value);
-                                document.getElementById("custoData").value = y.getElementsByTagName("input")[3].value;
-                            }
+                            var y = frames.addMember.document
+                                if (y){
+                                    //alert(y.getElementsByTagName("input")[3].value);
+                                    document.getElementById("custoData").value = y.getElementsByTagName("input")[3].value;
+                                }
+                        }
+
+                        function Del(){
+                            document.getElementById('finalOrder').deleteRow(-1);
                         }
                         </script>
                         
-                        </form>
+                        
                         
                         </div>
                     </div>
                 </div>
             </div>
-            
-
         </div>
         <div class="col-sm-4" >
             <div class="panel panel-warning">
                 <div class="panel-heading">會員</div>
                 <div class="panel-body">
-                <!--
-                    <form method='get' action=''>
-                    <label for="customer_phone">顧客手機號碼:</label>
-                    <input class="form-control" type="text" id="customer_phone" name="customer_phone"><br>
-                    <div align="right"><button type='submit' name='indentityCheck' onclick="checkIdentity()">查詢會員資料</button></div>
-                    </form>
-                    <p id="demo"></p>
-                    <p>
-                        會員性名: {{ custo_name }}
-                        會員手機: {{ custo_phone }}
-                        點數: {{ custo_point }}
-                    </p>
-                -->
+
                     <form method='get' action="">                    
                     <div class="iframe-rwd">
-                    <iframe id='myframe' src='/add_member' name='addMember' frameborder='0' style="width:100%" value=" "> </iframe>                
+                    <iframe id='myframe' src='/add_member' name='addMember' frameborder='0' style="width:100%; height:100%" value=" "> </iframe>                
                     </div>
                     </form>
                     
                 </div>
             </div>
-
-                
-
-        </div>
-
         </div>
         </div>
-          
-          
-        
-        <form method="GET" action="" >
-        
-        </form>
-        
-
-        
-
+        </div>
 
 <!--
-        <form method="GET" action="">
-        <input type='submit' name='createOrder' value='完成訂單'>
-        <p> 訂單編號 : {{ ordernum.num }} </p>
-        {% for orders in order_has_product_set.all %}
-            <tr>
-                <td>{{ orders.product }}</td>
-                <td>{{ orders.sugar_level }}</td>
-                <td>{{ orders.ice_level }}</td>
-                <td>{{ orders.cup_size }}</td>
-                <td>1</td>  
-            </tr>
-        {% endfor %}
-		</form>
+送出訂單之後，取得加工原料是否需要加工
 -->
-
-        <iframe name='addMember' height="100" width="600" frameborder='0'> </iframe>
-				
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="alert alert-danger">
+                        <strong>Danger!</strong> 需要備料了!
+                    </div>
+                </div>
+                
+            </div>
+        </div>
 
 	</body>
 </html>

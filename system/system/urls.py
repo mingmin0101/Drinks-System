@@ -17,13 +17,17 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
-from drink.views import main_page,order,add_member,list_ingredient,level_setup
+from drink.views import main_page,order,add_member,list_ingredient,level_setup,management,customer_info
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('main_page/' , main_page),
+    path('', main_page),
+    path('drink_system/', main_page),
     path('add_member/', add_member),
     path('order/', order),
+    path('management/ingredient', management),
+    path('management/customer_info', customer_info),
+
     path('listingredient/',list_ingredient),
     path('level_setup/',level_setup),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
