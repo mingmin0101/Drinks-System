@@ -17,7 +17,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
-from drink.views import main_page,order,add_member,list_ingredient,level_setup,management,customer_info
+from drink.views import main_page,order,add_member,management,customer_info
+from drink.views import predict_ingredient,list_ingredient,level_setup
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +29,7 @@ urlpatterns = [
     path('management/ingredient', management),
     path('management/customer_info', customer_info),
 
+    path('predictingredient/',predict_ingredient),
     path('listingredient/',list_ingredient),
     path('level_setup/',level_setup),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

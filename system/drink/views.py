@@ -194,7 +194,38 @@ def geti_level_dict():
     return i_para_dict
 
 
-def analyze_c_info(request):
-    c_list=list(Customer.objects.all())
-    return HttpResponse("test")
+
+def predict_ingredient(request):
+    time_pa_list=[[9,"紅茶",2],[9,"綠茶",1],[10,"奶茶",2],[10,"綠茶",2,[11,"奶茶",3]]]
+    pa_temp_dict={"紅茶":0,"綠茶":0,"奶茶":0}
+    day_pa_list=[]
+
+    day_temp=time_pa_list[0][0]
+    count=0
+    for time_pa in time_pa_list:
+        if time_pa[0] == day_temp:
+            amount = time_pa[2]
+            pa_temp_dict[time_pa[1]] += amount
+        else:
+            day_pa_list.append([day_temp,pa_temp_dict])
+            day_temp=time_pa[0]
+            for k,v in pa_temp_dict:
+                v=0
+            
+            
+    return render(request,"predict_ingredient.html",locals())
+
+"""
+        count+=1
+
+        if count == len(time_pa_list):
+            day_temp=time_pa[0]
+            for k,v in pa_temp_dict:
+                v=0
+            day_pa_list.append([day_temp,pa_temp_dict])
+"""
+        
+            
+
+
 
