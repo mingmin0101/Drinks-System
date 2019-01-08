@@ -23,6 +23,12 @@ def add_member(request):
         memberAdded_date = datetime.datetime.now()
         lastOrder_date = datetime.datetime.now()
         Customer.objects.create(name=name, customer_phone=phone, gender=gender, points=0, create_time=memberAdded_date, latest_order_time=lastOrder_date)
+        
+        custom = Customer.objects.get(customer_phone=request.GET['phone'])
+        custo_name = custom.name
+        custo_phone = custom.customer_phone
+        custo_gender = custom.gender
+        custo_point = custom.points
     
     if('customer_phone' in request.GET and request.GET['customer_phone']):
         
@@ -58,6 +64,7 @@ def order(request):
         custo = Customer.objects.filter(customer_phone=request.GET['custoData'])
         if custo.exists():
             thisOrder.update(customer = Customer.objects.get(customer_phone=orderCusto))
+            custo.update(latest_order_time=orderCreate_date)
         
         # 新增這筆Order資料裡面的所有Order_has_product資料
         orderArray = request.GET['genOrder']
@@ -77,7 +84,6 @@ def order(request):
         thisOrder.update(total_price=sumDollar)
     
     return render_to_response('order.html', locals())
-
 
 @register.filter
 def get_item(dictionary, key):

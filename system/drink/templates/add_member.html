@@ -19,25 +19,41 @@
           display: inline-block;
           font-size: 12px;
         }
+        body {
+            font-family: 微軟正黑體
+        }
+
         </style>
+        <script type="text/javascript">
+            function identity(){
+                if(document.getElementById('customer_phone2').value == "noMember"){
+                    document.getElementById('add').style.visibility = "visible";
+                }
+                //document.getElementById('add').style.visibility = "visible";
+            }
+        </script>
         
     </head>
     <body>
-        <input class="form-control" type="text" id="customer_phone2" name="customer_phone2" value="{{ custo_phone }}" style="visibility:hidden">
         
         <form method='get' action=''>
         <div>
             <label for="customer_phone">顧客手機號碼:</label>
             <input class="form-control" type="text" id="customer_phone" name="customer_phone"><br>
-            <div align="right"><button type='submit' name='indentityCheck' onclick="identity()">查詢會員資料</button></div>
-            
-            <p>
-                會員性名: {{ custo_name }}
-                會員手機: {{ custo_phone }}
-                點數: {{ custo_point }}
-            </p>
+            <div align="right"><button type='submit' name='indentityCheck'>查詢會員資料</button></div>
+         
+
+            <p>會員性名: {{ custo_name }}</p>
+            <p>會員手機: {{ custo_phone }}</p>
+            <p>點數: {{ custo_point }}</p>
+
+            <!--<div align="right"><button type='submit' onclick="identity()">新增會員資料</button></div>-->
             <br>
-            <h5>新增資料</h5>
+            <br>
+            <h3>新增會員</h3>
+            <br>
+            <div id='add'>
+            
             <label for="customer_name">顧客姓名:</label>
             <input class="form-control" type="text" id="customer_name" name="customer_name"><br>
             <label for="phone">手機:</label>
@@ -47,32 +63,15 @@
                 <option value="M">男性</option>
                 <option value="F">女性</option>
             </select>
+            
+            <div align="right" style="padding-top:10px"><button type='submit'>新增會員</button></div>
 
-
-<!--
-        <table>
-            <tr>
-                <th>name</th>
-                <th>phone</th>
-                <th>gender</th>
-            </tr>
-        
-            <tr>
-                <th><input type="text" name='customer_name' class="form-control"></th>
-                <th><input type="text" name='phone' class="form-control"></th>
-                <th>
-                    <select name="gender" class="form-control" required>
-                        <option value="M">男性</option>
-                        <option value="F">女性</option>
-                    </select>
-                </th>   
-            </tr>
-        </table>
-    -->
-        <div align="right" style="padding-top:10px"><button type='submit'>新增會員</button></div>
         </div>
- 
-        </form>
+        </div>
+        </form> 
+        
+        
+        <input class="form-control" type="text" id="customer_phone2" name="customer_phone2" value="{{ custo_phone }}" style="visibility:hidden">
 
 
     
