@@ -94,15 +94,23 @@ def order(request):
             order = Order.objects.get(id=orderid)
             product = Product.objects.get(product_name=drink)
             Order_has_product.objects.create(cup_size=size, ice_level=ice, sugar_level=sugar, amount=order_num, product=product, order=order)
-            #sumDollar += product.price * int(order_num)
+            sumDollar += product.price * int(order_num)
+
             sumCups += int(order_num)
 
-        thisOrder.update(total_price=int(request.GET['total']))
+        # 總額裡面的價錢(包含點數使用扣掉的錢)
+        # sumDollar = int(request.GET['total'])
+        thisOrder.update(total_price=sumDollar)
         
         # 會員每買一杯就增加點數一點
         if custo.exists():
-            sumCups += Customer.objects.get(customer_phone=orderCusto).points
+            pointDect = request.GET['usePoint']
+            sumCups = sumCups + Customer.objects.get(customer_phone=orderCusto).points - int(pointDect)
             custo.update(points=sumCups)
+
+            
+            
+
     
     return render_to_response('order.html', locals())
 

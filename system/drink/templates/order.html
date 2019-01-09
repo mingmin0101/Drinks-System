@@ -16,8 +16,9 @@
           text-align: center;
           font-size: 40px;
         }
+
         table {
-          width: 100%;
+          border-collapse: collapse;
         }
         
         button {
@@ -187,8 +188,8 @@
             <div class="panel-group">
                 <div class="panel panel-default">
                     <div class="panel-heading" >新增餐點</div>
-                    <div class="panel-body table-responsive">
-                        <table id="orderTable">
+                    <div class="panel-body">
+                        <table id="orderTable" style="width: 100%;">
                           <tr>
                             <th>商品</th>
                             <th>甜度</th>
@@ -245,7 +246,7 @@
                 <div class="panel panel-success">
                     <div class="panel-heading">確認訂單</div>
                     <div class="panel-body">
-                        <table id='finalOrder'>
+                        <table id='finalOrder' style="width: 100%;">
                             <tr>
                                 <th>商品</th>
                                 <th>甜度</th>
@@ -264,22 +265,22 @@
                         <input id="custoData" name='custoData' type="text" value="" style="visibility:hidden">
                         <input id="custoPoint" name='custoPoint' type="text" value="" style="visibility:hidden">
 
-                        <div align="right" class="table-responsive">
+                        <div align="right">
                         <table id='summarize' align="right">
                             <tr>
-                                <th style='width:100px; padding-right:10px'>
+                                <th style='width:100px; padding-right:10px;padding-left:10px'>
                                     <label align="left" for="usePoint">點數兌換:</label>
                                     <input class="form-control" type="number" id="usePoint" name="usePoint" min="0" max="document.getElementById('custoPoint').value"><br>
                                 </th>
                                 
-                                <th>
-                                    <button type='submit' name='point_used_by_custo' value=''>使用點數</button>
+                                <th style='width:130px; padding-left:10px;padding-right:10px'>
+                                    <button type='button' onclick='pointUsed()' name='point_used_by_custo' value=''>使用點數</button>
                                 </th>
-                                <th style='width:100px; padding-right:10px'>
+                                <th style='width:100px; padding-right:10px; padding-left:10px'>
                                     <label align="left" for="total">總額:</label>
                                     <input class="form-control" type="text" id="total" name="total"><br>
                                 </th>
-                                <th>
+                                <th style='width:120px; padding-left:10px'>
                                     <button type="submit" id="btnFirstGenerateJson" name='genrateOrder' value=' ' onclick='myFunction()'>送出訂單</button>
                                 </th>
                             </tr>
@@ -312,6 +313,10 @@
                             let total = document.getElementById('total');
                             total.value = parseFloat(total.value)-parseFloat(delNum); 
                             document.getElementById('finalOrder').deleteRow(-1);
+                        }
+                        function pointUsed(){
+                            let totalPrice = document.getElementById('total');
+                            total.value = parseInt(total.value)- parseInt(document.getElementById('usePoint').value)
                         }
                         </script>
                                                 
