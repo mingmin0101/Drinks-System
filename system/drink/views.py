@@ -4,7 +4,7 @@ from drink.models import Customer,Ingredient,Order, Order_has_product, Product,R
 from django.template.defaulttags import register
 from scipy import stats
 from operator import itemgetter
-import datetime
+from datetime import *
 import json
 import copy
 
@@ -123,36 +123,35 @@ def split(list, n):
     
 
 def customer_info(request):
-    customer_list=list(Customer.objects.all())
+    customer_list=list(Customer.objects.all().order_by('latest_order_time'))
     order_list=list(Order.objects.all())
-    pre_customer_rfm_list=get_pre_customer_rfm()
+    pre_customer_rfm_list1=get_customer_r1()
+    pre_customer_rfm_list2=get_customer_r2()
+    pre_customer_rfm_list3=get_customer_r3()
+    pre_customer_rfm_list4=get_customer_r4()
+    pre_customer_rfm_list5=get_customer_r5()
+    customer_ait=get_customer_AIT()
+    
 
     return render(request,'customer_info.html',locals())
 
 def get_customer_rfm_list():
     customer_rfm_list=[]
     return customer_rfm_list
-
-def get_pre_customer_rfm():
+def get_customer_AIT():
     customer_list=list(Customer.objects.all())
     order_list=list(Order.objects.all())
-    pre_customer_rfm_list=[]
-
+    pre_customer_AIT_list=[]
     for customer in customer_list:
         order_list=list(Order.objects.all().filter(customer=customer))
-
         recency=customer.latest_order_time
-        frequency=0
-        money=0
-
-        for order in order_list:
-            frequency += 1
-            money += order.total_price
-        pre_customer_rfm_list.append([customer.name,recency,frequency,money])
-        
-    return pre_customer_rfm_list
-
-
+        if str(recency)<'2019-01-01':
+            frequency=0
+            for order in order_list:
+                frequency += 1
+            AIT=1/frequency
+            pre_customer_AIT_list.append([customer.name,AIT])
+    return pre_customer_AIT_list
 def sales_info(request):
     return render_to_response('sales_info.html')
 
@@ -344,7 +343,85 @@ def get_day_pa_list():
 
     return day_pa_list
 
-        
+def get_customer_r1():
+    customer_list=list(Customer.objects.all())
+    order_list=list(Order.objects.all())
+    pre_customer_rfm_list=[]
+    for customer in customer_list:
+        if customer.name != 'noMember':
+            order_list=list(Order.objects.all().filter(customer=customer))
+            recency=customer.latest_order_time
+            if str(recency)<= '2018-11-01':
+                frequency=0
+                money=0
+                for order in order_list:
+                    frequency += 1
+                    money += order.total_price
+                pre_customer_rfm_list.append([customer.name,recency,frequency,money])
+    return sorted(pre_customer_rfm_list,key=itemgetter(1))
+def get_customer_r2():
+    customer_list=list(Customer.objects.all())
+    order_list=list(Order.objects.all())
+    pre_customer_rfm_list=[]
+    for customer in customer_list:
+        order_list=list(Order.objects.all().filter(customer=customer))
+        recency=customer.latest_order_time
+        if str(recency)<= '2018-12-01' and str(recency) >'2018-10-31':
+            frequency=0
+            money=0
+            for order in order_list:
+                frequency += 1
+                money += order.total_price
+            pre_customer_rfm_list.append([customer.name,recency,frequency,money])
+    return sorted(pre_customer_rfm_list,key=itemgetter(1))
+def get_customer_r3():
+    customer_list=list(Customer.objects.all())
+    order_list=list(Order.objects.all())
+    pre_customer_rfm_list=[]
+    for customer in customer_list:
+        order_list=list(Order.objects.all().filter(customer=customer))
+        recency=customer.latest_order_time
+        if str(recency)>= '2018-12-01'and str(recency)<'2019-01-01':
+            frequency=0
+            money=0
+            for order in order_list:
+                frequency += 1
+                money += order.total_price
+            if frequency < 10:
+                pre_customer_rfm_list.append([customer.name,recency,frequency,money])
+    return sorted(pre_customer_rfm_list,key=itemgetter(1))
+def get_customer_r4():
+    customer_list=list(Customer.objects.all())
+    order_list=list(Order.objects.all())
+    pre_customer_rfm_list=[]
+    for customer in customer_list:
+        order_list=list(Order.objects.all().filter(customer=customer))
+        recency=customer.latest_order_time
+        if str(recency)>= '2018-12-01'and str(recency)<'2019-01-01':
+            frequency=0
+            money=0
+            for order in order_list:
+                frequency += 1
+                money += order.total_price
+            if frequency >= 10 and money<1000:
+                pre_customer_rfm_list.append([customer.name,recency,frequency,money])
+    return sorted(pre_customer_rfm_list,key=itemgetter(1))
+def get_customer_r5():
+    customer_list=list(Customer.objects.all())
+    order_list=list(Order.objects.all())
+    pre_customer_rfm_list=[]
+    for customer in customer_list:
+        order_list=list(Order.objects.all().filter(customer=customer))
+        recency=customer.latest_order_time
+        if str(recency)>= '2018-12-01'and str(recency)<'2019-01-01':
+            frequency=0
+            money=0
+            for order in order_list:
+                frequency += 1
+                money += order.total_price
+            if frequency >= 10 and money>=1000:
+                pre_customer_rfm_list.append([customer.name,recency,frequency,money])
+    return sorted(pre_customer_rfm_list,key=itemgetter(1))
             
 
 

@@ -139,19 +139,96 @@
 -->
 <div id="myBtnContainer">
   <button class="btn active1" onclick="filterSelection('all')"> Show all</button>
+  <button class="btn" onclick="filterSelection('custo_data')"> 顧客資料 </button>
+  <button class="btn" onclick="filterSelection('custo_ait')"> AIT </button>
   <button class="btn" onclick="filterSelection('retention')"> 留存率 </button>
   <button class="btn" onclick="filterSelection('rfm')"> RFM </button>
 
 </div>
 
 <div class="container">
+  <div class="filterDiv custo_data">
+      <p style='font-size: 20px' align="center"><b>顧客資料 </b></p>
+      <table id="custo", align="center">
+          <tr>
+              <th>Customer Name</th>
+              <th>Gender</th>
+              <th>Phone</th>
+              <th>Last order time</th>
+          </tr>
+          {%for customer in customer_list%}
+          {%if customer.gender != "no" %}
+          <tr>
+              <td>{{customer.name}}</td>  
+              <td>{{customer.gender}}</td>
+              <td>{{customer.customer_phone}}</td>
+              <td>{{customer.latest_order_time}}</td>
+          </tr>
+          {%endif%}
+          {%endfor%}
+        
+        </table> 
+  </div>
+  <div class="filterDiv custo_ait">
+      <p style='font-size: 20px' align="center"><b>平均購買時間間隔</b></p>
+        {%for num in customer_ait%}
+        <tr>
+            <td>{{num}}</td>  
+        </tr>
+        {%endfor%}  
+
+      <div id="ait" style="width:100%"></div>
+    </div>
   <div class="filterDiv retention">
     <p style='font-size: 20px' align="center"><b>留存率</b></p>
     <div id="container" style="width:100%"></div>
   </div>
 
-  <div class="filterDiv rfm">RFM
-
+  <div class="filterDiv rfm">
+      <p style='font-size: 20px' align="center"><b>RFM </b></p>
+      <table id="custo", align="center">
+          <tr>
+              <th>Group1</th>
+            </tr>
+            {%for data in pre_customer_rfm_list5%}
+            <tr>
+                <td>{{data}}</td>  
+            </tr>
+            {%endfor%}    
+            <tr>
+                <th>Group2</th>
+            </tr>      
+              {%for data in pre_customer_rfm_list4%}
+              <tr>
+                  <td>{{data}}</td>  
+              </tr>
+              {%endfor%}  
+              <tr>
+                  <th>Group3</th>
+              </tr>      
+                {%for data in pre_customer_rfm_list3%}
+                <tr>
+                    <td>{{data}}</td>  
+                </tr>
+                {%endfor%}  
+                <tr>
+                    <th>Group4</th>
+                </tr>      
+                  {%for data in pre_customer_rfm_list2%}
+                  <tr>
+                      <td>{{data}}</td>  
+                  </tr>
+                  {%endfor%}
+                  <tr>
+                      <th>Group5</th>
+                  </tr>      
+                    {%for data in pre_customer_rfm_list1%}
+                    <tr>
+                        <td>{{data}}</td>  
+                    </tr>
+                    {%endfor%}  
+        </table> 
+        {{pre_customer_rfm_list}}
   </div>
 </div>
 
@@ -268,27 +345,9 @@
 
     <br>
     <br>
+
+
     
-    <table align="center">
-                <tr>
-                    <th>Customer Name</th>
-                    <th>Gender</th>
-                    <th>Phone</th>
-                    <th>Last order time</th>
-                </tr>
-                {%for customer in customer_list%}
-                {%if customer.gender != "no" %}
-                <tr>
-                    <td>{{customer.name}}</td>  
-                    <td>{{customer.gender}}</td>
-                    <td>{{customer.customer_phone}}</td>
-                    <td>{{customer.latest_order_time}}</td>
-                </tr>
-                {%endif%}
-                {%endfor%}
-              
-    </table> 
-    {{pre_customer_rfm_list}}
 
             
 
