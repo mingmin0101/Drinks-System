@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
-	<head>
+    <head>
         
-		<title>點 餐 ORDER</title>
+        <title>點 餐 ORDER</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
 
 
         <style>    
@@ -64,6 +65,17 @@
         </style>
         
         <script type="text/javascript">
+            $(window).load(function(){
+                var iframea = document.getElementById("ingredientframe");
+                var elmnt1 = iframea.contentWindow.document.getElementsByTagName("td")[25];
+                var elmnt2 = iframea.contentWindow.document.getElementsByTagName("td")[29];
+                var elmnt3 = iframea.contentWindow.document.getElementsByTagName("td")[33];
+                //document.getElementById('ingretest').value = elmnt1.innerHTML;
+
+                if(parseInt(elmnt1.innerHTML)<20 || parseInt(elmnt2.innerHTML)<20 || parseInt(elmnt3.innerHTML)<20 ){
+                    document.getElementById('ingredientAlert').style.visibility='visible'; 
+                };
+            });
             $(function () {
                 $("[id*=btnFirstGenerateJson").click(function () {
                     var array1 = [];
@@ -170,8 +182,8 @@
 
 
   
-	</head>
-	<body>       
+    </head>
+    <body>       
         <br>
         {% load staticfiles %}
         <img src=" {% static 'logo.png' %} " style="width:80px;height:80px;" onclick="window.location.href ='/drink_system'" align="left">
@@ -257,6 +269,7 @@
                                 <th>小計</th>
                             </tr>
                         </table>
+                       
                         <div align="right" style="padding-top:10px">
                         <button type="submit" onclick='Del()' style="margin-bottom:10px">刪除訂單</button>
 
@@ -302,10 +315,21 @@
                                     document.getElementById("point_used_by_custo").value = y.getElementsByTagName("input")[3].value;
                                     document.getElementById("custoPoint").value = y.getElementsByTagName("input")[4].value;
                                     document.getElementById("usePoint").max = y.getElementsByTagName("input")[4].value;
-
                                     
                                 }
+                            
+                            var iframea = document.getElementById("ingredientframe");
+                            var elmnt1 = iframea.contentWindow.document.getElementsByTagName("td")[25];
+                            var elmnt2 = iframea.contentWindow.document.getElementsByTagName("td")[29];
+                            var elmnt3 = iframea.contentWindow.document.getElementsByTagName("td")[33];
+                            document.getElementById('ingretest').value = elmnt1.innerHTML;
+
+                            if(parseInt(elmnt1.innerHTML)<20 || parseInt(elmnt2.innerHTML)<20 || parseInt(elmnt3.innerHTML)<20 ){
+                                document.getElementById('ingredientAlert').style.visibility='visible' 
+                            }
                         }
+
+                        
 
                         function Del(){
                             let finalTable = document.getElementById('finalOrder')
@@ -314,10 +338,13 @@
                             total.value = parseFloat(total.value)-parseFloat(delNum); 
                             document.getElementById('finalOrder').deleteRow(-1);
                         }
+
                         function pointUsed(){
                             let totalPrice = document.getElementById('total');
                             total.value = parseInt(total.value)- parseInt(document.getElementById('usePoint').value)
                         }
+
+                
                         </script>
                                                 
                         </div>
@@ -343,10 +370,18 @@
 送出訂單之後，取得加工原料是否需要加工
 -->
 
-            <div class="alert alert-danger">
+            <div class="alert alert-danger" id='ingredientAlert' onclick="window.open('/management/ingredient')" style="visibility: hidden;">
                 <strong>Danger!</strong> 
                 <br>需要備料了!
             </div>
+            <script type="text/javascript">
+                
+
+                
+            </script>
+
+            <iframe id='ingredientframe' src='/management/ingredient' name='ingre' frameborder='0' style="width:1%; height:1%;visibility:hidden" value="" > </iframe>
+            <input type="text" id='ingretest' style="visibility:hidden">
 
 
         </div>
@@ -356,5 +391,5 @@
 
         
 
-	</body>
+    </body>
 </html>
