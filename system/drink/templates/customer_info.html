@@ -83,7 +83,7 @@
     <style type="text/css">
         .filterDiv {
           padding: 10px;
-          background-color: #C3B091;
+          background-color: white;
           width: 100%;
           line-height: 45px;
           text-align: center;
@@ -151,9 +151,9 @@
       <p style='font-size: 20px' align="center"><b>顧客資料 </b></p>
       <table id="custo", align="center">
           <tr>
-              <th>Customer Name</th>
-              <th>Gender</th>
-              <th>Phone</th>
+              <th>姓 名</th>
+              <th>性 別</th>
+              <th>電 話</th>
               <th>Last order time</th>
           </tr>
           {%for customer in customer_list%}
@@ -171,11 +171,19 @@
   </div>
   <div class="filterDiv custo_ait">
       <p style='font-size: 20px' align="center"><b>平均購買時間間隔</b></p>
-        {%for num in customer_ait%}
-        <tr>
-            <td>{{num}}</td>  
-        </tr>
-        {%endfor%}  
+        <table align="center">
+            <tr>
+                <th>顧客姓名</th>
+                <th>AIT</th>
+            </tr>
+
+            {%for num in customer_ait%}
+            <tr>
+                <td>{{num.0}}</td> 
+                <td>{{num.1}}</td> 
+            </tr>
+            {%endfor%}  
+        </table>
 
       <div id="ait" style="width:100%"></div>
     </div>
@@ -187,44 +195,94 @@
   <div class="filterDiv rfm">
       <p style='font-size: 20px' align="center"><b>RFM </b></p>
       <table id="custo", align="center">
-          <tr>
-              <th>Group1</th>
+        <h3>Group1</h3>
+        <table align="center">
+            <tr> 
+                <th> 顧客姓名 </th> 
+                <th> 最後購買時間 </th>
+                <th> 購買頻率 </th>
+                <th> 購買金額 </th>
             </tr>
-            {%for data in pre_customer_rfm_list5%}
+            {% for data in pre_customer_rfm_list5 %}
             <tr>
-                <td>{{data}}</td>  
+                <td> {{data.0}} </td> 
+                <td> {{data.1}} </td>
+                <td> {{data.2}} </td>
+                <td> {{data.3}} </td>
+
             </tr>
-            {%endfor%}    
+            {%endfor%}
+        </table>
+        <br>
+        <h3>Group2</h3>
+        <table align="center">    
             <tr>
-                <th>Group2</th>
+                <th> 顧客姓名 </th> 
+                <th> 最後購買時間 </th>
+                <th> 購買頻率 </th>
+                <th> 購買金額 </th>
             </tr>      
               {%for data in pre_customer_rfm_list4%}
               <tr>
-                  <td>{{data}}</td>  
+                    <td> {{data.0}} </td> 
+                    <td> {{data.1}} </td>
+                    <td> {{data.2}} </td>
+                    <td> {{data.3}} </td> 
               </tr>
-              {%endfor%}  
+              {%endfor%} 
+        </table>
+        <br>
+        <h3>Group3</h3>
+        <table align="center"> 
               <tr>
-                  <th>Group3</th>
+                    <th> 顧客姓名 </th> 
+                    <th> 最後購買時間 </th>
+                    <th> 購買頻率 </th>
+                    <th> 購買金額 </th>
               </tr>      
                 {%for data in pre_customer_rfm_list3%}
                 <tr>
-                    <td>{{data}}</td>  
+                    <td> {{data.0}} </td> 
+                    <td> {{data.1}} </td>
+                    <td> {{data.2}} </td>
+                    <td> {{data.3}} </td>
                 </tr>
                 {%endfor%}  
+        </table>
+        <br>
+        <h3>Group4</h3> 
+        <table align="center">
                 <tr>
-                    <th>Group4</th>
+                    <th> 顧客姓名 </th> 
+                    <th> 最後購買時間 </th>
+                    <th> 購買頻率 </th>
+                    <th> 購買金額 </th>
                 </tr>      
                   {%for data in pre_customer_rfm_list2%}
                   <tr>
-                      <td>{{data}}</td>  
+                        <td> {{data.0}} </td> 
+                        <td> {{data.1}} </td>
+                        <td> {{data.2}} </td>
+                        <td> {{data.3}} </td>  
                   </tr>
                   {%endfor%}
-                  <tr>
-                      <th>Group5</th>
+        </table>
+        <br>
+        <h3>Group5</h3>
+        <table align="center">
+                  <tr> 
+                        <th> 顧客姓名 </th> 
+                        <th> 最後購買時間 </th>
+                        <th> 購買頻率 </th>
+                        <th> 購買金額 </th>
+
                   </tr>      
                     {%for data in pre_customer_rfm_list1%}
                     <tr>
-                        <td>{{data}}</td>  
+                        <td> {{data.0}} </td> 
+                        <td> {{data.1}} </td>
+                        <td> {{data.2}} </td>
+                        <td> {{data.3}} </td>
                     </tr>
                     {%endfor%}  
         </table> 
