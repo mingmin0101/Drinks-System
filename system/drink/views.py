@@ -125,28 +125,30 @@ def split(list, n):
 def customer_info(request):
     customer_list=list(Customer.objects.all())
     order_list=list(Order.objects.all())
+    pre_customer_rfm_list=get_pre_customer_rfm()
+
+    return render(request,'customer_info.html',locals())
+
+def get_customer_rfm_list():
+    customer_rfm_list=[]
+    return customer_rfm_list
+
+def get_pre_customer_rfm():
+    customer_list=list(Customer.objects.all())
+    order_list=list(Order.objects.all())
     pre_customer_rfm_list=[]
-    
+
     for customer in customer_list:
-        co_list=[]
-        for order in order_list:
-            if order.customer ==customer:
-                co_list.append(order)
+        order_list=list(Order.objects.all().filter(customer=customer))
 
         recency=customer.latest_order_time
         frequency=0
         money=0
 
-        pre_customer_rfm_list=[]
         for order in order_list:
             frequency += 1
             money += order.total_price
-            pre_customer_rfm_list.append([customer.name,recency,frequency,money])
-
-    return render(request,'customer_info.html',locals())
-
-def get_customer_rfm():
-    pre_customer_rfm_list=[]
+        pre_customer_rfm_list.append([customer.name,recency,frequency,money])
         
     return pre_customer_rfm_list
 
