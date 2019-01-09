@@ -104,9 +104,13 @@ def order(request):
         
         # 會員每買一杯就增加點數一點
         if custo.exists():
-            pointDect = request.GET['usePoint']
-            sumCups = sumCups + Customer.objects.get(customer_phone=orderCusto).points - int(pointDect)
-            custo.update(points=sumCups)
+            if(request.GET['usePoint']!=""):
+                pointDect = request.GET['usePoint']
+                sumCups = sumCups + Customer.objects.get(customer_phone=orderCusto).points - int(pointDect)
+                custo.update(points=sumCups)
+            else:
+                sumCups = sumCups + Customer.objects.get(customer_phone=orderCusto).points
+                custo.update(points=sumCups)
 
             
             
