@@ -120,7 +120,13 @@ def customer_info(request):
 
 def sales_info(request):
     return render_to_response('sales_info.html')
-    
+
+
+def variable_setting(request):
+    return render_to_response('variable_setting.html')
+
+def inventory_prediction(request):
+    return render_to_response('inventory_prediction.html')   
     
 
 @register.filter
@@ -149,7 +155,7 @@ def list_ingredient(request):
                     i.amount = i.amount + process_val
                     i.save()
 
-        return render(request,'manager_check_i.html',locals())
+        return render(request,'management.html',locals())
 
 def getROP(LT,accepted_risk):
     #再訂購點訂購法
@@ -195,7 +201,7 @@ def level_setup(request):
             i.S0=getS0(accepted_risk)
             i.save()
 
-    return render(request,'level_setup.html',locals())
+    return render(request,'variable_setting.html',locals())
 
 def getp_i_level_dict():
     p_i_dict={}

@@ -89,8 +89,8 @@
         <img src=" {% static 'logo.png' %} " style="width:80px; height:80px; float:left; padding-right:15px; padding-top: 20px;" onclick="window.location.href ='/drink_system'"></li>
       <li><a class='other' href="/management/ingredient">原料存貨檢視</a></li>
       <li><a class='other' href='/management/variable_setting'>存貨參數設定</a></li>
-      <li><a class='other' href='/management/inventory_prediction'>存貨使用預測</a></li>
-      <li><a class='active' >銷售數據</a></li>
+      <li><a class='active'>存貨使用預測</a></li>
+      <li><a class='other' href="/management/sales_info">銷售數據</a></li>
       <li><a class='other' href="/management/customer_info">顧客管理</a></li>
       <li><a class='other' href="/admin">資料維護</a></li>
     </ul>
@@ -101,92 +101,10 @@
 <br>
 
 <!--
-徐的部分
+劉的部分
 
 
 -->
-<script src="https://code.highcharts.com/modules/series-label.js"></script>
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script src="https://code.highcharts.com/modules/export-data.js"></script>
-<div id="c-chart" style="min-width: 310px; height: 400px; margin: 0 auto; font-family: 微軟正黑體"></div>
-<script>
-                    
-Highcharts.chart('c-chart', {
-  chart: {
-    type: 'column'
-  },
-  title: {
-    text: 'Total Amount Each Week'
-  },
-
-  xAxis: {
-    categories: [
-      'week1',
-      'week2',
-      'week3',
-      'week4',
-      'week5',
-      'week6',
-      'week7',
-      'week8',
-      'week9',
-      'week10',
-      'week11',
-      'week12'
-    ],
-    crosshair: true
-  },
-  yAxis: {
-    min: 0,
-    title: {
-      text: 'Total Amount'
-    }
-  },
-  tooltip: {
-    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-      '<td style="padding:0"><b>{point.y:.0f} 杯</b></td></tr>',
-    footerFormat: '</table>',
-    shared: true,
-    useHTML: true
-  },
-  plotOptions: {
-    column: {
-      pointPadding: 0.2,
-      borderWidth: 0
-    }
-  },
-  series: [{
-    name: '紅茶',
-    data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-
-  }, {
-    name: '綠茶',
-    data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
-
-  }, {
-    name: '鮮奶茶',
-    data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
-
-  }, {
-    name: '鮮奶綠',
-    data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
-
-  } ,{
-    name: '珍珠鮮奶茶',
-    data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
-
-  }, {
-    name: '珍珠鮮奶綠',
-    data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
-
-  }]
-});
-</script>
-    
-
-
 
 </body>
 </html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        h1 {
+          text-align: center;
+          font-size: 40px;
+        }
+        body {
+            font-family: 微軟正黑體;
+            margin: 0px;
+            padding-top: 0px;
+        }
+        table, td, th {  
+          
+          text-align: left;
+        }
+
+        table {
+          border-collapse: collapse;
+        }
+
+        th{
+          padding: 5px;
+          text-align:center;
+        }
+
+        td {
+          padding: 2px;
+        }
+        input[type=text] {
+          width: 100%;
+          padding: 12px 20px;
+          margin: 8px 0;
+          box-sizing: border-box;
+          border: 2px solid #ccc;
+          -webkit-transition: 0.5s;
+          transition: 0.5s;
+          outline: none;
+        }
+
+        input[type=text]:focus {
+          border: 2px solid #555;
+        }
+        .button {
+          background-color: #e7e7e7; 
+          border: none;
+          padding: 10px 30px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 12px;
+          font-family: 微軟正黑體;
+
+        }
+        .button:hover {
+          background-color: #333;
+          color: white;
+        }
+
+        /* Style the top navigation bar */
+        .topnav {
+          overflow: hidden;
+          background-color: white;
+        }
+
+        /* Style the topnav links */
+        .topnav a {
+          float: left;
+          display: block;
+          text-align: center;
+          padding: 45px 40px;
+          text-decoration: none;
+        }
+
+        .other {
+           color: #9F8170; 
+        }
+
+        /* Change color on hover */
+        .topnav a:hover:not(.active) {
+          background-color: #333;
+          color: white;
+        }
+
+        ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          background-color: #C3B091;
+          font-size: 20px;
+        }
+        
+        li a:hover:not(.active) {
+          background-color: #333;
+          color: black;
+        }
+
+        .active {
+          color: white;
+          background-color: #9F8170;
+        }
+        
+
+    </style>
+
+</head>
+<body>
+
+    <ul class="topnav">
+      <li>
+        {% load staticfiles %}
+        <img src=" {% static 'logo.png' %} " style="width:80px; height:80px; float:left; padding-right:15px; padding-top: 20px;" onclick="window.location.href ='/drink_system'"></li>
+      <li><a class='other' href='/management/ingredient'>原料存貨檢視</a></li>
+      <li><a class='active'>存貨參數設定</a></li>
+      <li><a class='other' href='/management/inventory_prediction'>存貨使用預測</a></li>
+      <li><a class='other' href="/management/sales_info">銷售數據</a></li>
+      <li><a class='other' href="/management/customer_info">顧客管理</a></li>
+      <li><a class='other' href="/admin">資料維護</a></li>
+    </ul>
+
+
+<!--
+-->
+<form method="GET" action="">
+<br>
+
+
+<table align="center" style="border: 1px solid #ddd;">
+    <tr style="border: 1px solid #ddd;">
+        <th valign="top" style="border: 1px solid #ddd;padding-left: 10px;padding-right: 10px">
+            <div class='container' " style="padding-left: 10px;padding-right: 10px"> 
+            <h2>Non-Perishable Ingredients</h2>
+            <table>
+                <tr>
+                    <th>ingredient</th>
+                    <th>LT</th>
+                    <th>accepted_risk</th>
+                    <th>ROP</th>
+                </tr>
+                {%for i in i_para_list_ROP%}
+                <tr>
+                    <td>{{i.ingredient_name}}</td>
+                    <td>
+                        <input class="form-control" name="{{i.ingredient_name}}_LT" id="{{i.ingredient_name}}_LT" type="text" value="{{i.LT}}">
+                    </td>
+                    <td>
+                        <input class="form-control" name="{{i.ingredient_name}}_accepted_risk" id="{{i.ingredient_name}}_accepted_risk" type="text" value="{{i.accepted_risk}}">
+                    </td>
+                    <td>
+                        <p>{{i.ROP}}</p>
+                    </td>
+                </tr>
+                {%endfor%}
+            </table>
+            </div>
+        </th>
+           
+        <th valign="top">
+            <div class='container' style="padding-left: 10px;padding-right: 10px"> 
+            <h2>Perishable Ingredients</h2>
+            <table>
+                <tr>
+                    <th>ingredient</th>
+                    <th>accepted_risk</th>
+                    <th>S0</th>
+                </tr>
+
+                {%for i in i_para_list_S0%}
+                <tr>
+                    <td>{{i.ingredient_name}}</td>
+                    <td>
+                        <input class="form-control" name="{{i.ingredient_name}}_accepted_risk" id="{{i.ingredient_name}}_accepted_risk" type="text" value="{{i.accepted_risk}}">
+                    </td>
+                    <td>
+                        <p>{{i.S0}}</p>
+                    </td>
+                </tr>
+                {%endfor%}
+            </table>
+            <br>
+            </div>
+            
+            
+        </th>
+    </tr>
+</table>
+<input class='button' type="submit" value="calculate" align="center">
+</form>
+
+
+
+
+   
+
+
+</body>
+</html>
