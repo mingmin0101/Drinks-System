@@ -53,8 +53,6 @@
 				<tr>
 					<th>ingredient</th>
 					<th>LT</th>
-					<th>d</th>
-					<th>sigma</th>
 					<th>accepted_risk</th>
 					<th>ROP</th>
 				</tr>
@@ -63,12 +61,6 @@
 					<td>{{i.ingredient_name}}</td>
 					<td>
 						<input class="form-control" name="{{i.ingredient_name}}_LT" id="{{i.ingredient_name}}_LT type="text" value="{{i.LT}}">
-					</td>
-					<td>
-						<input class="form-control" name="{{i.ingredient_name}}_d" id="{{i.ingredient_name}}_d" type="text" value="{{i.d}}">
-					</td>
-					<td>
-						<input class="form-control" name="{{i.ingredient_name}}_sigma" id="{{i.ingredient_name}}_sigma" type="text" value="{{i.sigma}}">	
 					</td>
 					<td>
 						<input class="form-control" name="{{i.ingredient_name}}_accepted_risk" id="{{i.ingredient_name}}_accepted_risk" type="text" value="{{i.accepted_risk}}">
@@ -86,8 +78,6 @@
 			<table>
 				<tr>
 					<th>ingredient</th>
-					<th>d</th>
-					<th>sigma</th>
 					<th>accepted_risk</th>
 					<th>S0</th>
 				</tr>
@@ -95,12 +85,6 @@
 				{%for i in i_para_list_S0%}
 				<tr>
 					<td>{{i.ingredient_name}}</td>
-					<td>
-						<input class="form-control" name="{{i.ingredient_name}}_d" id="{{i.ingredient_name}}_d" type="text" value="{{i.d}}">
-					</td>
-					<td>
-						<input class="form-control" name="{{i.ingredient_name}}_sigma" id="{{i.ingredient_name}}_sigma" type="text" value="{{i.sigma}}">	
-					</td>
 					<td>
 						<input class="form-control" name="{{i.ingredient_name}}_accepted_risk" id="{{i.ingredient_name}}_accepted_risk" type="text" value="{{i.accepted_risk}}">
 					</td>

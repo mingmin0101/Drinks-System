@@ -7,10 +7,7 @@ import datetime
 import json
 import copy
 
-DEFAULT_LT=4
-DEFAULT_D=2
-DEFAULT_SIGMA=0.1
-DEFAULT_ACCEPTED_RISK=1.5
+
 
 def main_page(request):
 
@@ -123,15 +120,20 @@ def list_ingredient(request):
 
         return render(request,'manager_check_i.html',locals())
 
-def getROP(LT,d,sigma,accepted_risk):
+def getROP(LT,accepted_risk):
     #再訂購點訂購法
+    d=50
+    sigma=10
     ROP=d * LT + stats.norm.ppf((100-accepted_risk)/100)*sigma*LT**0.5
-    return ROP
+    return round(ROP,2)
 
-def getS0(d,sigma,accepted_risk):
+def getS0(accepted_risk):
     #單期訂購法
+    d=50
+    sigma=10
     S0=d + stats.norm.ppf((100-accepted_risk)/100)*sigma
-    return S0
+    return round(S0,2)
+
 
 def level_setup(request):
     i_para_list_ROP=list(ROP_Parameters.objects.all())
@@ -140,37 +142,26 @@ def level_setup(request):
     #再訂購點訂購法
     for i in i_para_list_ROP:
         LT_str=str(i.ingredient_name)+"_LT"
-        d_str=str(i.ingredient_name)+"_d"
-        sigma_str=str(i.ingredient_name)+"_sigma"
         accepted_risk_str=str(i.ingredient_name)+"_accepted_risk"
 
-        if(LT_str in request.GET and d_str in request.GET and sigma_str in request.GET and accepted_risk_str in request.GET):
+        if(LT_str in request.GET and accepted_risk_str in request.GET):
             LT = float(request.GET[LT_str])
-            d  = float(request.GET[d_str])
-            sigma=float(request.GET[sigma_str])
             accepted_risk=float(request.GET[accepted_risk_str])
 
             i.LT=LT
-            i.d=d
-            i.sigma=sigma
             i.accepted_risk=accepted_risk
-            i.ROP=getROP(LT,d,sigma,accepted_risk)
+            i.ROP=getROP(LT,accepted_risk)
             i.save()
 
     for i in i_para_list_S0:
-        d_str=str(i.ingredient_name)+"_d"
-        sigma_str=str(i.ingredient_name)+"_sigma"
-        accepted_risk_str=str(i.ingredient_name)+"_accepted_risk"
 
-        if(d_str in request.GET and sigma_str in request.GET and accepted_risk_str in request.GET):
-            d  = float(request.GET[d_str])
-            sigma=float(request.GET[sigma_str])
+        accepted_risk_str=str(i.ingredient_name)+"_accepted_risk"
+        #if(d_str in request.GET and sigma_str in request.GET and accepted_risk_str in request.GET):
+        if(accepted_risk_str in request.GET):
             accepted_risk=float(request.GET[accepted_risk_str])
 
-            i.d=d
-            i.sigma=sigma
             i.accepted_risk=accepted_risk
-            i.S0=getS0(d,sigma,accepted_risk)
+            i.S0=getS0(accepted_risk)
             i.save()
 
     return render(request,'level_setup.html',locals())
