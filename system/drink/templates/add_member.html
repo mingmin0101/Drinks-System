@@ -46,10 +46,17 @@
             <input class="form-control" type="text" id="customer_phone" name="customer_phone"><br>
             <div align="right"><button type='submit' name='indentityCheck'>查詢會員資料</button></div>
          
-
+        
             <p>會員性名: {{ custo_name }}</p>
             <p>會員手機: {{ custo_phone }}</p>
             <p>點數: {{ custo_point }}</p>
+            
+            <br>
+            <br>
+            <br>
+            <label for="usePoint">點數兌換:</label>
+            <input class="form-control" type="number" id="usePoint" name="usePoint" min="0" max="{{ custo_point }}"><br>
+            <div align="right"><button type='submit' name='point_used_by_custo' value='{{ custo_phone }}'>使用點數</button></div>
 
             <!--<div align="right"><button type='submit' onclick="identity()">新增會員資料</button></div>-->
             <br>
@@ -76,7 +83,7 @@
         
         
         <input class="form-control" type="text" id="customer_phone2" name="customer_phone2" value="{{ custo_phone }}" style="visibility:hidden">
-
+        <input class="form-control" type="text" value="{{ custo_point }}" style="visibility:hidden">
 
     
     </body>

@@ -55,22 +55,55 @@
           background-color: #9F8170;
         }
         
+        /* 徐 的東東*/
+        #container {
+          min-width: 310px;
+          max-width: 800px;
+          height: 400px;
+          margin: 0 auto
+        }
+        table {
+          border-collapse: collapse;
+          width: 60%;
+          text-align: center;
+        }
 
+        th, td {
+          padding: 8px;
+          text-align: center;
+          border-bottom: 1px solid #ddd;
+        }
+            
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
     </style>
-
+    
 </head>
 <body>
 
-<ul class="topnav">
-  <li>
-    {% load staticfiles %}
-    <img src=" {% static 'logo.png' %} " style="width:80px; height:80px; float:left; padding-right:15px; padding-top: 20px;" onclick="window.location.href ='/drink_system'"></li>
-  <li><a class='active'>原料存貨檢視</a></li>
-  <li><a class='other' href="#">存貨參數設定</a></li>
-  <li><a class='other' href="#">存貨使用預測</a></li>
-  <li><a class='other' href="/management/sales_info">銷售數據</a></li>
-  <li><a class='other' href="/management/customer_info">顧客管理</a></li>
-  <li><a class='other' href="/admin">資料維護</a></li>
-</ul>
+    <ul class="topnav">
+      <li>
+        {% load staticfiles %}
+        <img src=" {% static 'logo.png' %} " style="width:80px; height:80px; float:left; padding-right:15px; padding-top: 20px;" onclick="window.location.href ='/drink_system'"></li>
+      <li><a class='other' href="/management/ingredient">原料存貨檢視</a></li>
+      <li><a class='other' href="#">存貨參數設定</a></li>
+      <li><a class='other' href="#">存貨使用預測</a></li>
+      <li><a class='active' >銷售數據</a></li>
+      <li><a class='other' href="/management/customer_info">顧客管理</a></li>
+      <li><a class='other' href="/admin">資料維護</a></li>
+    </ul>
+
+
+
+<!--
+徐的部分
+
+
+-->
+    
+
+
+
 </body>
 </html>

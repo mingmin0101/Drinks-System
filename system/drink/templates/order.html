@@ -19,6 +19,7 @@
         table {
           width: 100%;
         }
+        
         button {
           background-color: #e7e7e7; 
           color: black;
@@ -78,7 +79,13 @@
                         }
                     });
                     //alert(JSON.stringify(array1));
-                    alert('訂單成功!')
+                    if(document.getElementById('total').value != '0' && document.getElementById('total').value != '')
+                    {
+                        alert('訂單成功!')
+
+                    } ;
+          
+                    
                     document.getElementById("This-is-the-real-id").value = JSON.stringify(array1);
                     document.getElementById("genrateOrder").value = JSON.stringify(array1);
                 });
@@ -127,11 +134,20 @@
           cell5.innerHTML = selObjNum.value;
           
           let price = { 
-            "red_tea":25, "green_tea":25, "milktea":40, "green_milktea":40, "bubble_milktea":50, "green_bubble_milktea":50 
+            "red_tea":25, "green_tea":25, "milktea":40, "green_milktea":40, "bubble_milktea":50, "bubble_green_milktea":50 
           }
 
           cell6.innerHTML = price[selObjDrink.options[selObjDrink.selectedIndex].value];
           cell7.innerHTML = price[selObjDrink.options[selObjDrink.selectedIndex].value]*selObjNum.value;
+
+          let total = document.getElementById('total');
+          if(total.value ==""){
+              total.value = price[selObjDrink.options[selObjDrink.selectedIndex].value]*selObjNum.value;
+          }else{
+              total.value = parseFloat(total.value)+price[selObjDrink.options[selObjDrink.selectedIndex].value]*selObjNum.value;
+          }
+            
+
 
           //cell8.innerHTML = price[selObjDrink.options[selObjDrink.selectedIndex].value]*selObjNum.value;
 
@@ -242,10 +258,35 @@
                         </table>
                         <div align="right" style="padding-top:10px">
                         <button type="submit" onclick='Del()' style="margin-bottom:10px">刪除訂單</button>
+
                         <form method='get' action=''>
                         <input id="This-is-the-real-id" name ='genOrder' type="text" value="" style="visibility:hidden">
                         <input id="custoData" name='custoData' type="text" value="" style="visibility:hidden">
-                        <button type="submit" id="btnFirstGenerateJson" name='genrateOrder' value=' ' onclick='myFunction()'>送出訂單</button>
+                        <input id="custoPoint" name='custoPoint' type="text" value="" style="visibility:hidden">
+
+                        <div align="right" class="table-responsive">
+                        <table id='summarize' align="right">
+                            <tr>
+                                <th style='width:100px; padding-right:10px'>
+                                    <label align="left" for="usePoint">點數兌換:</label>
+                                    <input class="form-control" type="number" id="usePoint" name="usePoint" min="0" max="document.getElementById('custoPoint').value"><br>
+                                </th>
+                                
+                                <th>
+                                    <button type='submit' name='point_used_by_custo' value=''>使用點數</button>
+                                </th>
+                                <th style='width:100px; padding-right:10px'>
+                                    <label align="left" for="total">總額:</label>
+                                    <input class="form-control" type="text" id="total" name="total"><br>
+                                </th>
+                                <th>
+                                    <button type="submit" id="btnFirstGenerateJson" name='genrateOrder' value=' ' onclick='myFunction()'>送出訂單</button>
+                                </th>
+                            </tr>
+                        </table>
+                        </div>
+
+
                         </form>
                         
                         
@@ -254,17 +295,26 @@
                             var y = frames.addMember.document
                                 if (y){
                                     //alert(y.getElementsByTagName("input")[3].value);
-                                    document.getElementById("custoData").value = y.getElementsByTagName("input")[3].value;
+                                    //紀錄會員手機
+                                    document.getElementById("custoData").value = y.getElementsByTagName("input")[4].value;
+                                    //用點數
+                                    document.getElementById("point_used_by_custo").value = y.getElementsByTagName("input")[4].value;
+                                    document.getElementById("custoPoint").value = y.getElementsByTagName("input")[5].value;
+                                    document.getElementById("usePoint").max = y.getElementsByTagName("input")[5].value;
+
+                                    
                                 }
                         }
 
                         function Del(){
+                            let finalTable = document.getElementById('finalOrder')
+                            let delNum = finalTable.rows[finalTable.rows.length - 1 ].cells[6].innerHTML;
+                            let total = document.getElementById('total');
+                            total.value = parseFloat(total.value)-parseFloat(delNum); 
                             document.getElementById('finalOrder').deleteRow(-1);
                         }
                         </script>
-                        
-                        
-                        
+                                                
                         </div>
                     </div>
                 </div>
@@ -283,23 +333,23 @@
                     
                 </div>
             </div>
+            
+<!--
+送出訂單之後，取得加工原料是否需要加工
+-->
+
+            <div class="alert alert-danger">
+                <strong>Danger!</strong> 
+                <br>需要備料了!
+            </div>
+
+
         </div>
         </div>
         </div>
 
-<!--
-送出訂單之後，取得加工原料是否需要加工
--->
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="alert alert-danger">
-                        <strong>Danger!</strong> 需要備料了!
-                    </div>
-                </div>
-                
-            </div>
-        </div>
+
+        
 
 	</body>
 </html>
