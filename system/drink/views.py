@@ -117,7 +117,7 @@ def order(request):
 
 def customer_info(request):
     customer_list=list(Customer.objects.all())
-    
+
     return render(request,'customer_info.html',locals())
 
 def sales_info(request):
