@@ -5,6 +5,7 @@ from django.template.defaulttags import register
 from scipy import stats
 import datetime
 import json
+import copy
 
 DEFAULT_LT=4
 DEFAULT_D=2
@@ -194,36 +195,78 @@ def geti_level_dict():
     return i_para_dict
 
 
-
 def predict_ingredient(request):
-    time_pa_list=[[9,"紅茶",2],[9,"綠茶",1],[10,"奶茶",2],[10,"綠茶",2,[11,"奶茶",3]]]
-    pa_temp_dict={"紅茶":0,"綠茶":0,"奶茶":0}
+    day_ingredient_list=get_day_i_list
+    
+    return render(request,"predict_ingredient.html",locals())
+
+def get_day_i_list():
+    day_pa_list=get_day_pa_list()
+    #returns [day,{ingredient_name:amount}]
+    day_ingredient_list=[]
+
+    i_amount_temp_dict={"紅茶":0,"綠茶":0,"珍珠":0}
+    for day_pa in day_pa_list:
+        red_tea = day_pa[1]['紅茶']
+        green_tea = day_pa[1]['綠茶']
+        bubble_milk_tea = day_pa[1]['珍珠奶茶']
+
+        i_amount_temp_dict["紅茶"]=red_tea + bubble_milk_tea
+        i_amount_temp_dict["綠茶"]=green_tea
+        i_amount_temp_dict["珍珠"]=bubble_milk_tea
+
+        i_amount_dict=copy.deepcopy(i_amount_temp_dict)
+        day_ingredient_list.append([day_pa[0],i_amount_dict])
+    
+    return day_ingredient_list
+
+
+def get_time_pa_list():
+    o_h_p_list=list(Order_has_product.objects.all())
+    #returns [order_time,{product_name:amount }] sorted by order_time
+    time_pa_list=[]
+
+    for o_h_p in o_h_p_list:
+        order_time = Order.objects.get(id=o_h_p.order.id).date
+        product_name = Product.objects.get(id=o_h_p.product.id).product_name
+        amount = o_h_p.amount
+        time_pa_list.append([order_time,product_name,amount])
+    sort(time_pa_list)
+    return HttpResponse(time_pa_list)
+ 
+
+def get_day_pa_list():
+    time_pa_list=[[9,"紅茶",2],[9,"綠茶",1],[9,"珍珠奶茶",2],[10,"綠茶",2],[10,"紅茶",1],[11,"珍珠奶茶",3],[12,"紅茶",1]]
+    pa_temp_dict={"紅茶":0,"綠茶":0,"珍珠奶茶":0}
+
+    #returns [day,{product_name:amount}]
     day_pa_list=[]
 
     day_temp=time_pa_list[0][0]
     count=0
     for time_pa in time_pa_list:
         if time_pa[0] == day_temp:
-            amount = time_pa[2]
-            pa_temp_dict[time_pa[1]] += amount
+            amount = time_pa[2] + pa_temp_dict[time_pa[1]]
+            pa_temp_dict[time_pa[1]] = amount
         else:
-            day_pa_list.append([day_temp,pa_temp_dict])
+            pa_dict=copy.deepcopy(pa_temp_dict)
+            day_pa_list.append([day_temp,pa_dict])
             day_temp=time_pa[0]
-            for k,v in pa_temp_dict:
-                v=0
-            
-            
-    return render(request,"predict_ingredient.html",locals())
+            for k in pa_temp_dict:
+                pa_temp_dict[k]=0
 
-"""
+            amount = time_pa[2] + pa_temp_dict[time_pa[1]]
+            pa_temp_dict[time_pa[1]] = amount
+        
         count+=1
-
         if count == len(time_pa_list):
-            day_temp=time_pa[0]
-            for k,v in pa_temp_dict:
-                v=0
-            day_pa_list.append([day_temp,pa_temp_dict])
-"""
+            pa_dict=copy.deepcopy(pa_temp_dict)
+            day_pa_list.append([day_temp,pa_dict])
+            for k in pa_temp_dict:
+                pa_temp_dict[k]=0
+
+    return day_pa_list
+
         
             
 
