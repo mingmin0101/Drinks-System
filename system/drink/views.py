@@ -18,6 +18,7 @@ def management(request):
     return render_to_response('management.html')
 
 def add_member(request):
+    # 查詢會員
     if ('customer_name' in request.GET and request.GET['customer_name']) and ('phone' in request.GET and request.GET['phone']) and ('gender' in request.GET and request.GET['gender']) :
         name = request.GET['customer_name']
         phone = request.GET['phone']
@@ -32,6 +33,17 @@ def add_member(request):
         custo_gender = custom.gender
         custo_point = custom.points
     
+    # 使用點數
+    if('usePoint' in request.GET and request.GET['usePoint'] and 'point_used_by_custo' in request.GET and request.GET['point_used_by_custo']):
+        custom = Customer.objects.get(customer_phone=request.GET['point_used_by_custo'])
+        custo_phone = custom.customer_phone
+        custo_name = custom.name
+        custo_point = custom.points - int(request.GET['usePoint'])
+        
+        Customer.objects.filter(customer_phone=custo_phone).update(points=custo_point)
+
+
+    # 新增會員
     if('customer_phone' in request.GET and request.GET['customer_phone']):
         
         custo = Customer.objects.filter(customer_phone=request.GET['customer_phone'])
@@ -51,7 +63,7 @@ def add_member(request):
 
 def order(request):
     if('genrateOrder' in request.GET and request.GET['genrateOrder'] and
-        'genOrder' in request.GET and request.GET['genOrder']):
+        'genOrder' in request.GET and request.GET['genOrder'] and 'total' in request.GET and request.GET['total'] and request.GET['total']!='0'):
         # 增加一筆Order資料
         # 顧客先暫時當作沒有會員
         noMember = Customer.objects.get(name='noMember')
@@ -72,6 +84,7 @@ def order(request):
         orderArray = request.GET['genOrder']
         orderArray1 = json.loads(orderArray)
         sumDollar = 0
+        sumCups = 0
         for orderItem in orderArray1:
             drink = orderItem.get('drink')
             sugar = orderItem.get('sugar')
@@ -81,15 +94,25 @@ def order(request):
             order = Order.objects.get(id=orderid)
             product = Product.objects.get(product_name=drink)
             Order_has_product.objects.create(cup_size=size, ice_level=ice, sugar_level=sugar, amount=order_num, product=product, order=order)
-            sumDollar += product.price * int(order_num)
+            #sumDollar += product.price * int(order_num)
+            sumCups += int(order_num)
 
-        thisOrder.update(total_price=sumDollar)
+        thisOrder.update(total_price=int(request.GET['total']))
+        
+        # 會員每買一杯就增加點數一點
+        if custo.exists():
+            sumCups += Customer.objects.get(customer_phone=orderCusto).points
+            custo.update(points=sumCups)
     
     return render_to_response('order.html', locals())
 
 
 def customer_info(request):
     return render_to_response('customer_info.html')
+
+def sales_info(request):
+    return render_to_response('sales_info.html')
+    
     
 
 @register.filter

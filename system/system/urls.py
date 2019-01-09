@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 from drink.views import main_page,order,add_member,management,customer_info
-from drink.views import predict_ingredient,list_ingredient,level_setup
+from drink.views import predict_ingredient,list_ingredient,level_setup,sales_info
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +28,7 @@ urlpatterns = [
     path('order/', order),
     path('management/ingredient', management),
     path('management/customer_info', customer_info),
+    path('management/sales_info', sales_info),
 
     path('predictingredient/',predict_ingredient),
     path('listingredient/',list_ingredient),
