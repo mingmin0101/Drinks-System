@@ -207,9 +207,9 @@ def level_setup(request):
 
 def getp_i_level_dict():
     p_i_dict={}
-    p_i_dict['bubble_p']=20
-    p_i_dict['green_tea_p']=20
-    p_i_dict['red_tea_p']=20
+    p_i_dict['煮過的珍珠']=20
+    p_i_dict['綠茶']=20
+    p_i_dict['紅茶']=20
 
     return p_i_dict
 

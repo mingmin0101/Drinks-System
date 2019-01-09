@@ -133,12 +133,12 @@
     <tr style="border: 1px solid #ddd;">
         <th valign="top" style="border: 1px solid #ddd;padding-left: 10px;padding-right: 10px">
             <div class='container' style="padding-left: 10px;padding-right: 10px"> 
-                <h2>For Manager</h2>
+                <h2>主管</h2>
                 <table>
                     <tr>
-                        <th>ingredient_name</th>
-                        <th>amount</th>
-                        <th>order</th>
+                        <th>原料</th>
+                        <th>原料數量</th>
+                        <th>原料訂購</th>
                     </tr>
                 
                     {%for i in i_list%}
@@ -154,7 +154,7 @@
                                 <input class="form-control" name="{{i.ingredient_name}}_orderamount" id="{{i.ingredient_name}}_orderamount" type="number" value=0>  
                             </td>
                             <td>
-                                <input class='button' type="submit" value="ordernow!">
+                                <input class='button' type="submit" value="訂購">
                             </td>
                         </form>
                     </tr>
@@ -167,12 +167,12 @@
            
         <th valign="top">
             <div class='container' style="padding-left: 10px;padding-right: 10px"> 
-            <h2>For employees</h2>
+            <h2>員工</h2>
                 <table>
                     <tr>
-                        <th>ingredient_name</th>
-                        <th>amount</th>
-                        <th>process</th>
+                        <th>原料</th>
+                        <th>數量</th>
+                        <th>製作數量</th>
                     </tr>
                     
                     {%for i in processed_i_list%}
@@ -188,7 +188,7 @@
                                 <input class="form-control" name="{{i.ingredient_name}}_processamount" id="{{i.ingredient_name}}_processamount" type="number" value=0>  
                             </td>
                             <td>
-                                <input class='button' type="submit" value="ProcessIngredient">
+                                <input class='button' type="submit" value="製作">
                             </td>
                         </form>
                     </tr>
