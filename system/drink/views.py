@@ -3,6 +3,7 @@ from django.http import HttpResponse,HttpResponseRedirect
 from drink.models import Customer,Ingredient,Order, Order_has_product, Product,ROP_Parameters,S0_Parameters
 from django.template.defaulttags import register
 from scipy import stats
+from operator import itemgetter
 import datetime
 import json
 import copy
@@ -112,17 +113,43 @@ def order(request):
                 sumCups = sumCups + Customer.objects.get(customer_phone=orderCusto).points
                 custo.update(points=sumCups)
 
-            
-            
-
     
     return render_to_response('order.html', locals())
 
 
+def split(list, n):
+    n = max(1, n)
+    return (list[i:i+n] for i in xrange(0, len(list), n))
+    
+
 def customer_info(request):
     customer_list=list(Customer.objects.all())
+    order_list=list(Order.objects.all())
+    pre_customer_rfm_list=[]
+    
+    for customer in customer_list:
+        co_list=[]
+        for order in order_list:
+            if order.customer ==customer:
+                co_list.append(order)
+
+        recency=customer.latest_order_time
+        frequency=0
+        money=0
+
+        pre_customer_rfm_list=[]
+        for order in order_list:
+            frequency += 1
+            money += order.total_price
+            pre_customer_rfm_list.append([customer.name,recency,frequency,money])
 
     return render(request,'customer_info.html',locals())
+
+def get_customer_rfm():
+    pre_customer_rfm_list=[]
+        
+    return pre_customer_rfm_list
+
 
 def sales_info(request):
     return render_to_response('sales_info.html')
@@ -140,6 +167,7 @@ def get_item(dictionary, key):
     return dictionary.get(key)
 
 def list_ingredient(request):
+
         i_list=list(Ingredient.objects.all().filter(is_processed=False))
         processed_i_list=list(Ingredient.objects.all().filter(is_processed=True))
         i_para_dict=geti_level_dict()
@@ -152,15 +180,28 @@ def list_ingredient(request):
                 if order_val > 0:
                     i.amount = i.amount + order_val
                     i.save()
-        
-        for i in processed_i_list:
             i_process_amount_str=i.ingredient_name+"_processamount"
+
+        for i in processed_i_list:
             if i.ingredient_name+"_processamount" in request.GET:
                 process_val=int(request.GET[i.ingredient_name+"_processamount"])
                 if process_val > 0:
-                    i.amount = i.amount + process_val
+                    if i.ingredient_name=="紅茶":
+                        rtea=Ingredient.objects.get(ingredient_name="紅茶茶葉")
+                        rtea.amount-=process_val
+                        rtea.save()
+                    elif i.ingredient_name=="綠茶":
+                        gtea=Ingredient.objects.get(ingredient_name="綠茶茶葉")
+                        gtea.amount-=process_val
+                        gtea.save()
+                    elif i.ingredient_name=="煮過的珍珠":
+                        bubble=Ingredient.objects.get(ingredient_name="珍珠")
+                        bubble.amount-=process_val
+                        bubble.save()
+                    i.amount = i.amount + process_val                    
                     i.save()
-
+                    return HttpResponseRedirect('ingredient')
+                    
         return render(request,'management.html',locals())
 
 def getROP(LT,accepted_risk):
