@@ -19,7 +19,7 @@
         }
         table, td, th {  
           
-          text-align: left;
+          text-align: center;
         }
 
         table {
@@ -35,7 +35,7 @@
           padding: 2px;
         }
         input[type=text] {
-          width: 100%;
+          width: 80%;
           padding: 9px 10px;
           margin: 8px 0;
           box-sizing: border-box;
@@ -138,12 +138,12 @@
     <tr style="border: 1px solid #ddd;">
         <th valign="top" style="border: 1px solid #ddd;padding-left: 10px;padding-right: 10px">
             <div class='container' " style="padding-left: 10px;padding-right: 10px"> 
-            <h2>Non-Perishable Ingredients</h2>
+            <h2>不易腐敗原料</h2>
             <table>
                 <tr>
-                    <th>ingredient</th>
-                    <th>LT</th>
-                    <th>accepted_risk</th>
+                    <th>原 料</th>
+                    <th>前置時間</th>
+                    <th>可接受的缺貨風險</th>
                     <th>ROP</th>
                 </tr>
                 {%for i in i_para_list_ROP%}
@@ -166,12 +166,12 @@
            
         <th valign="top">
             <div class='container' style="padding-left: 10px;padding-right: 10px"> 
-            <h2>Perishable Ingredients</h2>
+            <h2>易腐敗原料</h2>
             <table>
                 <tr>
-                    <th>ingredient</th>
-                    <th>accepted_risk</th>
-                    <th>S0</th>
+                    <th>原 料</th>
+                    <th>可接受的缺貨風險</th>
+                    <th>最佳存貨水準</th>
                 </tr>
 
                 {%for i in i_para_list_S0%}
@@ -195,7 +195,7 @@
 </table>
 <br>
 <div align="center">
-<input class='button' type="submit" value="calculate" align="center"></div>
+<input class='button' type="submit" value="計 算" align="center"></div>
 </form>
 
 
