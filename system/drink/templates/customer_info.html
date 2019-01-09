@@ -105,21 +105,21 @@
     <p style='font-size: 20px' align="center"><b>平均購買間隔時間</b></p>
     <table align="center">
                 <tr>
-                    <th>customer name</th>
-                    <th>AIT</th>
+                    <th>Customer Name</th>
+                    <th>Gender</th>
+                    <th>Phone</th>
+                    <th>Last order time</th>
                 </tr>
+                {%for customer in customer_list%}
+                {%if customer.gender != "no" %}
                 <tr>
-                    <td>Bob</td>
-                    <td>0.32</td>
+                    <td>{{customer.name}}</td>  
+                    <td>{{customer.gender}}</td>
+                    <td>{{customer.customer_phone}}</td>
+                    <td>{{customer.latest_order_time}}</td>
                 </tr>
-                <tr>
-                    <td>Mama</td>
-                    <td>0.7</td>
-                </tr>
-                <tr>
-                    <td>Amy</td>
-                    <td>0.87</td>
-                </tr>
+                {%endif%}
+                {%endfor%}
     </table>
     <br>
     <br>
